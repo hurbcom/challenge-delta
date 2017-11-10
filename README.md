@@ -1,4 +1,4 @@
-# <img src="https://avatars1.githubusercontent.com/u/7063040?v=4&s=200.jpg" alt="HU" width="24" /> Desafio β
+# <img src="https://avatars1.githubusercontent.com/u/7063040?v=4&s=200.jpg" alt="HU" width="24" /> Desafio δ
 
 Construa uma rotina de *deploy* de 5 nós de um cluster **elasticsearch** (replicável e testável) pronto para ser usado em produção. Você pode usar o que for necessário para isso, como um supervisor, por exemplo.
 
