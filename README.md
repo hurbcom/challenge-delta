@@ -8,10 +8,9 @@ Use qualquer ferramenta que você prefira para fazer esse desafio, preferencialm
 ## Requisitos
 
 - Forkar esse desafio e criar o seu projeto (ou workspace) usando a sua versão desse repositório, tão logo acabe o desafio, submeta um *pull request*.
-- Eu preciso conseguir rodar seu código ubuntu ou centOS;
-- Eu vou executar seu código com os seguintes comandos:
-  - git clone seu-fork
-  - cd seu-fork
+- O código precisa rodar em Ubuntu ou centOS (preferencialmente como containers Docker)
+- Para executar seu código, deve ser preciso apenas rodar os seguintes comandos:
+  - git clone $seu-forkseu-fork
   - comando para instalar dependências
   - comando para executar a aplicação
 
