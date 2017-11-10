@@ -25,7 +25,6 @@ Use qualquer ferramenta que você prefira para fazer esse desafio, preferencialm
 - **Segurança**: Existe alguma vulnerabilidade clara?
 - **Cobertura de testes** (Não esperamos cobertura completa)
 - **Histórico de commits** (estrutura e qualidade)
-- **UX**: A interface é de fácil uso e auto-explicativa? A API é intuitiva?
 - **Escolhas técnicas**: A escolha das bibliotecas, banco de dados, arquitetura, etc, é a melhor escolha para a aplicação?
 
 ## Dúvidas
