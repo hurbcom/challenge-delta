@@ -2,7 +2,7 @@
 
 Construa uma rotina de *deploy* de 5 nós de um cluster **elasticsearch** (replicável e testável) pronto para ser usado em produção. Você pode usar o que for necessário para isso, como um supervisor, por exemplo.
 
-Use qualquer ferramenta que você prefira para fazer esse desafio, preferencialmente Docker ou uma combinação de Chef com AWS.
+Use qualquer ferramenta que você prefira para fazer esse desafio, preferencialmente Docker ou uma combinação de Chef com AWS (ou Google Cloud).
 
 
 ## Requisitos
@@ -10,7 +10,7 @@ Use qualquer ferramenta que você prefira para fazer esse desafio, preferencialm
 - Forkar esse desafio e criar o seu projeto (ou workspace) usando a sua versão desse repositório, tão logo acabe o desafio, submeta um *pull request*.
 - O código precisa rodar em Ubuntu ou centOS (preferencialmente como containers Docker)
 - Caso haja uma falha em um dos nós, o restante do cluster precisa continuar funcionando e os dados fluindo. (vamos remover um dos nós nos testes)
-- Quando o cluster voltar a ter 5 nós após uma falha, os dados devem ser resincronizados automaticamente. (vamos adicionar o nó removido nos testes)
+- Quando o cluster voltar a ter 5 nós após uma falha, os dados devem ser resincronizados automaticamente. (vamos adicionar o um **novo** nó)
 - Para executar seu código, deve ser preciso apenas rodar os seguintes comandos:
   - git clone $seu-forkseu-fork
   - comando para instalar dependências
