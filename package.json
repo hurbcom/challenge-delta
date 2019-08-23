@@ -1,0 +1,16 @@
+{
+  "name": "notes-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no packages\" && exit 1"
+  },
+  "author": "Hurb",
+  "license": "ISC",
+  "dependencies": {
+    "mysql": "^2.15.0",
+    "restify": "^7.0.0",
+    "restify-errors": "^6.0.0"
+  }
+}
