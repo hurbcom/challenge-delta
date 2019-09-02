@@ -37,10 +37,14 @@ spec:
           valueFrom:
             secretKeyRef:
               name: mysql-db-name
-              key: url
+              key: database
+        - name: NODEJS_API_PORT
+          value: "8080"            # The the application will listen
+        - name: MYSQL_HOSTNAME     # Kubernetes service name of MySQL
+          value: "nodejs-app-mysql"
 ---
 apiVersion: v1                
-kind: Service                 
+kind: Service                 # Service for the deployed POD
 metadata:                     
   name: nodejs-app-server     # Name of the kubernetes resource
   labels:                     # Labels that will be applied to this resource
