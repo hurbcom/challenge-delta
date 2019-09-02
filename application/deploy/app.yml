@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1           
+kind: Deployment             
+metadata:
+  name: nodejs-app-server     # Name of the kubernetes resource
+  labels:                     
+    app: nodejs-app-server
+spec:
+  replicas: 1                 # How many pods will run
+  selector:
+    matchLabels:              
+      app: nodejs-app-server
+  template:                   
+    metadata:
+      labels:                 
+        app: nodejs-app-server
+    spec:                     
+      containers:
+      - name: nodejs-app-server
+        image: gugurd/challenge-app:v0.0.1 # Pin version to avoid misbehavior on application
+        imagePullPolicy: IfNotPresent
+        ports:
+          - name: http
+            containerPort: 8080 # The port that the container exposes
+        env:                    # Environment variables supplied to the Pod
+        - name: MYSQL_USERNAME 
+          valueFrom:          
+            secretKeyRef:
+              name: mysql-user-pass
+              key: username
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-user-pass
+              key: password
+        - name: MYSQL_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: mysql-db-name
+              key: url
+---
+apiVersion: v1                
+kind: Service                 
+metadata:                     
+  name: nodejs-app-server     # Name of the kubernetes resource
+  labels:                     # Labels that will be applied to this resource
+    app: nodejs-app-server
+spec:                         
+  type: NodePort              # The service will be exposed by opening a Port on each node and proxying it. 
+  selector:
+    app: nodejs-app-server    # The service exposes Pods with label `app=polling-app-server`
+  ports:                      # Forward incoming connections on port 8080 to the target port 8080
+  - name: http
+    port: 8080
+    targetPort: 8080
