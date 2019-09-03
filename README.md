@@ -61,10 +61,21 @@ Considerando que o ambiente a rodar a aplicação já tem pre-configurado o mini
 **Instalação automática** (Apenas para BASH/Linux)
 Disponibilizei um script de deploy automático para o BASH
 >`./deploy.sh deploy`  -- Faz o deploy completo interativo
-
+>
 >`./deploy.sh update`  -- Apenas atualiza o deploy Kubernetes
+>
+>`./deploy.sh db_import` -- Apenas importa o banco de dados (./application/nodejs/database_schema.sql)
 
->`./deploy.sh db_import` -- Apenas importa o banco de dados (./application/nodejs/database_schema.sql) 
+
+**Instalação automática**
+Apesar de solicitado a disponibilização via Docker Logs optei por usar o kubectl logs já que também foi uma opção no desafio.
+O conceito básico é:
+
+>`kubectl get pods --all-namespaces` -- Lista todos os PODs busque pelo iniciado nginx-ingress-controller
+>
+>`kubectl get pods` -- Lista os PODs do namespace default que foi o escolhido para esse deploy
+>
+>`kubectl logs POD_NAME` -- Mostra os logs de execução das aplicações e o access_logs/error_logs no caso do NGINX
 
 ## Mudanças e comentários
 
