@@ -19,26 +19,26 @@ ask()
 
 create_secrets()
 {     
-    kubectl delete secret mysql-root-pass mysql-user-pass mysql-db-name 
-    kubectl create secret generic mysql-root-pass --from-literal=password=$db_root_password && \
-    kubectl create secret generic mysql-user-pass --from-literal=username=$db_username --from-literal=password=$db_password && \
-    kubectl create secret generic mysql-db-name --from-literal=database=packages
+    kubectl.exe delete secret mysql-root-pass mysql-user-pass mysql-db-name 
+    kubectl.exe create secret generic mysql-root-pass --from-literal=password=$db_root_password && \
+    kubectl.exe create secret generic mysql-user-pass --from-literal=username=$db_username --from-literal=password=$db_password && \
+    kubectl.exe create secret generic mysql-db-name --from-literal=database=packages
 }
 
 deploy()
 {
     for f in $(ls ./*/deploy/*.yml); do
         echo Running deploy for $f
-        kubectl apply -f $f
+        kubectl.exe apply -f $f
         echo
     done
 }
 
 db_import()
 {
-    APP_POD=$(kubectl get pod -l app=nodejs-app-server -o jsonpath="{.items[0].metadata.name}")
+    APP_POD=$(kubectl.exe get pod -l app=nodejs-app-server -o jsonpath="{.items[0].metadata.name}")
     echo Trying to import database
-    kubectl exec -i $APP_POD -- mysql -h nodejs-app-mysql -u $db_username -p$db_password packages <./application/nodejs/database_schema.sql    
+    kubectl.exe exec -i $APP_POD -- mysql -h nodejs-app-mysql -u $db_username -p$db_password packages <./application/nodejs/database_schema.sql && echo DB Imported    
     echo
 }
 case $1 in
