@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1           
 kind: Deployment             
 metadata:
@@ -42,6 +41,14 @@ spec:
           value: "8080"            # The the application will listen
         - name: MYSQL_HOSTNAME     # Kubernetes service name of MySQL
           value: "nodejs-app-mysql"
+        readinessProbe:      #this block performs readiness probes
+          httpGet:
+            path: /packages
+            port: 8080
+        livenessProbe:       #this block performs liveness probes
+          httpGet:
+            path: /packages
+            port: 8080
 ---
 apiVersion: v1                
 kind: Service                 # Service for the deployed POD
