@@ -17,7 +17,7 @@ spec:
       containers:
       - name: nodejs-app-server
         image: gugurd/challenge-app:v0.0.1 # Pin version to avoid misbehavior on application
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
           - name: http
             containerPort: 8080 # The port that the container exposes
@@ -59,7 +59,7 @@ metadata:
 spec:                         
   type: NodePort              # The service will be exposed by opening a Port on each node and proxying it. 
   selector:
-    app: nodejs-app-server    # The service exposes Pods with label `app=polling-app-server`
+    app: nodejs-app-server    # The service exposes Pods with label `app=nodejs-app-server`
   ports:                      # Forward incoming connections on port 8080 to the target port 8080
   - name: http
     port: 8080
