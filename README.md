@@ -61,7 +61,9 @@ Considerando que o ambiente a rodar a aplicação já tem pre-configurado o mini
 **Instalação automática** (Apenas para BASH/Linux)
 Disponibilizei um script de deploy automático para o BASH
 >`./deploy.sh deploy`  -- Faz o deploy completo interativo
+
 >`./deploy.sh update`  -- Apenas atualiza o deploy Kubernetes
+
 >`./deploy.sh db_import` -- Apenas importa o banco de dados (./application/nodejs/database_schema.sql) 
 
 ## Mudanças e comentários
