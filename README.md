@@ -6,7 +6,8 @@ Este estudo de caso tem como objetivo testar as habilidades relevantes para esta
 
 O projeto consiste em uma API implementada com Node.js​ + MySQL​ para criação e consulta de pacotes.
 Você deve:
--   Criar o diagrama de toda a infraestrutura do projeto em questão ( frontend, backend e database ); 
+
+-   Criar o diagrama de toda a infraestrutura do projeto em questão ( frontend, backend e database );
     -   Montar toda a infraestrutura utilizando Docker:
         -   1 container rodando a aplicação em Node.js;
         -   1 container rodando um banco de dados MySQL;
@@ -14,14 +15,14 @@ Você deve:
 -   Rodar a aplicação frontend na porta 80 e colocar o nginx ​como reverse proxy. O unico path disponivel deve ser o /packages, todos os demais paths devem ser redirecionados para o path default;
 -   Preparar o banco de dados para ser usado pela aplicação;
 -   Fornecer comandos para criação e inicialização do ambiente de forma automatizada
-      -   (__diferencial__) Usar minikube ( utilizando kubectl )
+    -   (**diferencial**) Usar minikube ( utilizando kubectl )
 -   Fornecer os comandos necessário para criar e deletar os pacotes;
 -   Todos os logs ( acsess e error ) devem estar diponiveis via "docker logs".
 
 ## Requisitos
 
 -   Forkar esse desafio e criar o seu projeto (ou workspace) usando a sua versão desse repositório, tão logo acabe o desafio, submeta um _pull request_.
-    -   Caso você tenha algum motivo para não submeter um _pull request_, crie um repositório privado no Github e adicione como colaborador o usuário `automator-hurb` e o deixe disponível por pelo menos 30 dias. Ao terminar o desafio nos envie um email avisando do termino.
+    -   Caso você tenha algum motivo para não submeter um _pull request_, crie um repositório privado no Github e adicione como colaborador o usuário `automator-hurb` e o deixe disponível por pelo menos 30 dias. Ao terminar o desafio, envie o código para esse projeto criado, preencha o arquivo chamado `pull-request.txt` e nos envie um email avisando do término.
     -   Caso você tenha algum problema para criar o repositório privado, ao término do desafio preencha o arquivo chamado `pull-request.txt`, comprima a pasta do projeto - incluindo a pasta `.git` - e nos envie por email.
 -   Para executar seu código, deve ser preciso apenas rodar os seguintes comandos:
     -   git clone \$seu-forkseu-fork
