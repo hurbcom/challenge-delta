@@ -20,8 +20,8 @@ services:
         build:
            context: app/.
            dockerfile: Dockerfile
-        image: hurbapp
-        container_name: hurbapp
+        image: nodejs_hurb
+        container_name: nodejs_hurb
         restart: always
         environment:
            NODEJS_API_PORT: 80
