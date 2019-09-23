@@ -10,7 +10,7 @@ curl -XPOST http://localhost:8080/packages -H 'content-type: text/plain' -d Hote
 curl -XDELETE http://localhost:8080/packages/${ID}
 
 ## Listart Packages
-curl -XGET http://localhost:8080/package
+curl -XGET http://localhost:8080/packages
 
 #Matar mysql, nodejs e nginx
 docker-compose kill
