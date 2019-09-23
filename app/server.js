@@ -8,8 +8,8 @@ if (!port) {
 }
 var connection = mysql.createConnection({
     host: 'localhost',
-    user: 'user_packages',
-    password: 'passwords'
+    user: 'hurb_user',
+    password: 'hurb_password'
 });
 
 var server = restify.createServer();
@@ -36,9 +36,9 @@ server.post('/packages', function (request, response, next) {
 // delete packages
 server.del('/packages/:id', function (request, response, next) {
     var id = request.params.id;
-    
+
     if(!id || id <= 0) { return next(new errors.BadRequestError("id inválido")); }
-    
+
     connection.query('delete from packages.offer WHERE Id=?', [id], function (error, results, fields) {
         if (error) { next(error); return; }
         if(!results.affectedRows) { next(new errors.BadRequestError("id inválido")); return; }

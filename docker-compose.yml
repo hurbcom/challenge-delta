@@ -1,0 +1,37 @@
+version: "3"
+services:
+  db:
+     network_mode: host
+     image: mysql:5.7
+     restart: always
+     container_name: mysql_hurb
+     environment:
+        MYSQL_DATABASE: 'packages'
+        MYSQL_USER: 'hurb_user'
+        MYSQL_PASSWORD: 'hurb_password'
+        MYSQL_ROOT_PASSWORD: 'root_password'
+     volumes:
+        - /tmp/mysql:/var/lib/mysql
+        - /tmp/logs:/var/log/mysql/
+        - ./mysql/schema:/docker-entrypoint-initdb.d/:ro
+
+  nodejs:
+        network_mode: host
+        build:
+           context: app/.
+           dockerfile: Dockerfile
+        image: hurbapp
+        container_name: hurbapp
+        restart: always
+        environment:
+           NODEJS_API_PORT: 80
+
+  reverseproxy:
+      network_mode: host
+      image: nginx
+      container_name: nginx_hurb
+      restart: always
+      volumes:
+        - ./nginx/config/default.conf:/etc/nginx/conf.d/default.conf
+        - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf
+        - /tmp/logs/nginx/:/var/log/nginx/
