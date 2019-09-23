@@ -1,0 +1,19 @@
+
+
+#Subir mysql, nodejs e nginx
+docker-compose up -d
+
+## Criar Package
+curl -XPOST http://localhost:8080/packages -H 'content-type: text/plain' -d HotelUrbano
+
+## Deletar Package
+curl -XDELETE http://localhost:8080/packages/${ID}
+
+## Listart Packages
+curl -XGET http://localhost:8080/package
+
+#Matar mysql, nodejs e nginx
+docker-compose kill
+
+#Remover containers
+docker-compose rm
