@@ -17,7 +17,7 @@ Você deve:
 -   Fornecer comandos para criação e inicialização do ambiente de forma automatizada
     -   (**diferencial**) Usar minikube ( utilizando kubectl )
 -   Fornecer os comandos necessário para criar e deletar os pacotes;
--   Todos os logs ( acsess e error ) devem estar diponiveis via "docker logs".
+-   Todos os logs ( access e error ) devem estar diponiveis via "docker logs".
 
 ## Requisitos
 
