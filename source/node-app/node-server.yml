@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-server
+  template:
+    metadata:
+      labels:
+        app: node-server
+    spec:
+      containers:
+        - name: node-server
+          image: renanbastos/server-node:v2
+          env:
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: secret-mysql
+                key: username
+          - name: DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: secret-mysql
+                key: password
+          - name: DB_HOST
+            value: mysql-svc
+          ports:
+            - containerPort: 8888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-svc
+spec:
+  selector:
+    app: node-server
+  ports:
+    - port: 80
+      targetPort: 8888

@@ -49,3 +49,11 @@ Boa sorte e boa viagem! ;)
 <p align="center">
   <img src="ca.jpg" alt="Challange accepted" />
 </p>
+
+## Passos para iniciar a aplicação 
+
+- O minikube deve estar instalado no ambiente para executar a aplicação, instrução para instalar o minkube em : https://kubernetes.io/docs/tasks/tools/install-minikube/
+
+- Executar o script shell contido no diretório da aplicação `start.sh`
+- Ao final da execução do script `start.sh` , executar o comando ` eval $(minikube docker-env)`
+- Executar o script `test.sh` para testar as APIs.
