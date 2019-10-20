@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+  db:
+    build:
+      context: ./db/
+      dockerfile: Dockerfile
+    container_name: delta_db
+    env_file: ./.env
+    restart: always
+    volumes: 
+      - mysql_data:/var/lib/mysql
+    networks: 
+      - db_network
+  
+  be:
+    build:
+      context: ./node/
+      dockerfile: Dockerfile
+    container_name: delta_app
+    env_file: ./.env
+    depends_on: 
+      - db
+    restart: always
+    volumes: 
+      - ./node/app/:/app/
+      - node_modules:/app/node_modules
+    networks: 
+      - db_network
+      - app_network
+    
+  
+  fe:
+    build:
+      context: ./nginx/
+      dockerfile: Dockerfile
+    container_name: delta_fe
+    env_file: ./.env
+    restart: always
+    depends_on: 
+      - be
+    ports: 
+      - "80:80"
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d/
+      - ./nginx/html:/usr/share/nginx/html
+      - nginx_conf:/etc/nginx
+      - nginx_log:/var/log/nginx/log
+    networks:
+      - app_network
+    
+  
+
+volumes: 
+  mysql_data: {}
+  node_modules: {}
+  nginx_conf: {}
+  nginx_log: {}
+
+networks: 
+  db_network:
+    internal: true
+  app_network:
+    
