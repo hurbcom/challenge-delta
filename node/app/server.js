@@ -7,9 +7,9 @@ if (!port) {
     port = 8888;
 }
 var connection = mysql.createConnection({
-    host: 'delta_db',
-    user: 'user_packages',
-    password: 'passwords'
+    host: process.env.DB_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD
 });
 
 var server = restify.createServer();
