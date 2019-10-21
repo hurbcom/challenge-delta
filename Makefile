@@ -12,6 +12,7 @@ help:
 	@echo
 	@echo "Targets:"
 	@echo "  run		run (build and start) the entire application using docker compose"
+	@echo "  packages	see all packages installed"
 	@echo "  down		remove all containers applications using docker compose"
 	@echo "  start		start all containers using docker compose"
 	@echo "  stop		stop all containers using docker compose"
@@ -28,6 +29,8 @@ help:
 	@echo
 	
 
+packages:
+	@curl localhost/packages
 
 down:
 	docker-compose down --remove-orphans
