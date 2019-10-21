@@ -38,7 +38,7 @@ test_command ()
 echo
 echo -e "${BLUE}Testing Delta Challenge${NO_COLOR}";
 echo
-test_message "Gathering all packages from /packages"
+test_message "Get all packages from /packages"
 test_command "curl localhost/packages"
 echo
 test_message "Adding test package in database"
