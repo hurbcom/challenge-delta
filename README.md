@@ -56,6 +56,10 @@ Todos os comandos podem ser usados da seguinte maneira:
 
 >> make create package=(nome_do_pacote)
 
+### Visualizando pacotes no banco
+
+>> make packages
+
 ### Deletando pacotes
 
 >> make delete id=(id_do_pacote)
