@@ -1,0 +1,16 @@
+version: "3.1"
+services:  
+  mysql:
+    image: mysql:5.7.28
+    container_name: hurb_mysql
+    working_dir: /application
+    volumes:
+      - ../db/mysql:/var/lib/mysql
+      - ../db/schema:/docker-entrypoint-initdb.d/:ro
+    environment:
+      MYSQL_DATABASE: 'packages'
+      MYSQL_ROOT_PASSWORD: 'hurb_root'
+      MYSQL_USER: 'user_packages'
+      MYSQL_PASSWORD: 'passwords'
+    ports:
+      - "3306:3306"
