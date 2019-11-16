@@ -1,10 +1,11 @@
+
 # <img src="https://avatars1.githubusercontent.com/u/7063040?v=4&s=200.jpg" alt="HU" width="24" /> Desafio Delta - Mauricio Gomes 11/2019
 
 Prezados,
 Segue meu desafio concluido, pensei em realizar em K8S porem não me senti confortavel para realizar com os meus conhecimentos atuais.
 
-Estrutura de Pastas e Arquivos
-
+Estrutura de Pastas e Arquivos:
+```
 │   .editorconfig 
 │   .gitignore 
 │   ca.jpg
@@ -34,8 +35,9 @@ Estrutura de Pastas e Arquivos
             Dockerfile
             package.json
             server.js
-
+```
 Pre-Requisitos:
+
     Linux:
         Distribuição Linux com kernel 3.10 ou superior
         Processador com virtualização habilitada na bios
@@ -55,6 +57,7 @@ Pre-Requisitos:
         Git Bash
 
 Ambiente:
+
     Iniciar o Ambiente:
         Execute start_env.sh *, o ambiente será criado e o banco será populado.
 
@@ -68,12 +71,13 @@ Ambiente:
 
 Logs:
     Os logos estão disponiveis em docker logs $nomedocontainer.
-        Ex:
+        
             docker logs hurb_nginx
             docker logs hurb_node
             docker logs hurb_mysql
 
 Dados de Acesso ao banco:
+
     Banco: packages
     Usuário Root: root
     Senha Root: hurb_root
