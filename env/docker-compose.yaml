@@ -5,8 +5,8 @@ services:
     container_name: hurb_mysql
     working_dir: /application
     volumes:
-      - ../db/mysql:/var/lib/mysql
-      - ../db/schema:/docker-entrypoint-initdb.d/:ro
+      - ../env/db/mysql:/var/lib/mysql
+      - ../env/db/schema:/docker-entrypoint-initdb.d/:ro
     environment:
       MYSQL_DATABASE: 'packages'
       MYSQL_ROOT_PASSWORD: 'hurb_root'
