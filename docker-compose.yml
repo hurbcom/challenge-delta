@@ -8,10 +8,9 @@ services:
         environment:
             WAIT_HOSTS: database:3306
             WAIT_HOSTS_TIMEOUT: 60
-
-
     database:
-        image: mariadb:10
+        build: database/
+        image: delta-database
         restart: always
         container_name: delta-database
         environment: 
@@ -20,9 +19,7 @@ services:
             MYSQL_USER: user_packages
             MYSQL_PASSWORD: passwords
         volumes: 
-            - ./database/:/docker-entrypoint-initdb.d/:ro
             - mariadb_data:/var/lib/mysql
-
     nginx:
         build: ./nginx
         image: delta-nginx
@@ -33,7 +30,6 @@ services:
             - web
         volumes:
             - nginx_log:/var/log/nginx
-
 volumes: 
     mariadb_data: {}
     nginx_log: {}
