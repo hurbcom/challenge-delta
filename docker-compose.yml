@@ -1,0 +1,42 @@
+version: '3'
+services: 
+    web:
+        build: ./node
+        image: delta-node
+        restart: always
+        container_name: delta-node
+        environment:
+            WAIT_HOSTS: database:3306
+            WAIT_HOSTS_TIMEOUT: 60
+
+
+    database:
+        image: mariadb:10
+        restart: always
+        container_name: delta-database
+        environment: 
+            MYSQL_ROOT_PASSWORD: root_password
+            MYSQL_DATABASE: packages
+            MYSQL_USER: user_packages
+            MYSQL_PASSWORD: passwords
+        volumes: 
+            - ./database/:/docker-entrypoint-initdb.d/:ro
+            - mariadb_data:/var/lib/mysql
+
+    nginx:
+        build: ./nginx
+        image: delta-nginx
+        container_name: delta-nginx
+        ports:
+            - 80:80
+        depends_on: 
+            - web
+        volumes:
+            - nginx_log:/var/log/nginx
+
+volumes: 
+    mariadb_data: {}
+    nginx_log: {}
+
+
+   
