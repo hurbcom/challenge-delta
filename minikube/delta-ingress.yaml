@@ -4,7 +4,7 @@ metadata:
   name: delta-ingress
 spec:
   rules:
-  - host: minekube-dns
+  - host: minikube-dns
     http:
       paths:
       - path: /packages
