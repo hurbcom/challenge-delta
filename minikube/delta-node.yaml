@@ -36,9 +36,6 @@ spec:
         - containerPort: 8888
         env:
           - name: WAIT_HOSTS
-            value: "delta-database:3306"
+            value: "database:3306"
           - name: WAIT_HOSTS_TIMEOUT
             value: "60"
-
-
-    
