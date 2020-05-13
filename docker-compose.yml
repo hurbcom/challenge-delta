@@ -1,0 +1,16 @@
+version: "3.7"
+
+services: 
+
+  db_delta:
+    image: mysql:5.7 
+    environment: 
+      MYSQL_DATABASE: packages
+      MYSQL_USER: user_packages
+      MYSQL_PASSWORD: passwords
+    volumes:
+      - db-delta/database_schema.sql:/docker-entrypoint-initdb.d/database_schema.sql
+      - dbvol:/var/lib/mysql
+
+volumes:
+  dbvol:
