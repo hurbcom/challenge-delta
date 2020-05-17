@@ -7,4 +7,6 @@ ENV MYSQL_RANDOM_ROOT_PASSWORD="yes"
 
 COPY ./files/*.sql /docker-entrypoint-initdb.d/
 
+VOLUME /var/lib/mysql
+
 EXPOSE 3306
