@@ -8,13 +8,13 @@ COPY package.json ./
 
 run npm install
 
-COPY . .
+COPY server.js .
 
 COPY --chown=node:node . .
 
 USER node
 
-EXPOSE 8080
+EXPOSE 80
 
 CMD [ "node", "server.js" ]
 
