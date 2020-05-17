@@ -7,7 +7,7 @@ if (!port) {
     port = 8888;
 }
 var connection = mysql.createConnection({
-    host: 'localhost',
+    host: 'dbdelta',
     user: 'user_packages',
     password: 'passwords'
 });
