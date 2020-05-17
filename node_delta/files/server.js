@@ -9,7 +9,8 @@ if (!port) {
 var connection = mysql.createConnection({
     host: 'dbdelta',
     user: 'user_packages',
-    password: 'passwords'
+    password: 'passwords',
+    ports: '3306'
 });
 
 var server = restify.createServer();
