@@ -38,11 +38,11 @@ Adicionar() {
 
   clear
 
-  echo -n "Qual o nome do usuário a se adicionar? "
+  echo -n "Qual o nome do pacote? "
 
-  read texto
+  read pack
 
-  curl -X POST 'http://localhost/packages' -H 'Content-Type: text/plain' -d texto 
+  curl -X POST 'http://localhost/packages' -H 'Content-Type: text/plain' -d $pack 
 
   Principal
 
@@ -56,9 +56,9 @@ Deletar() {
 
   echo -n "Qual o ID do pacote deseja deletar? "
 
-  read id
+  read numid 
 
-  curl -X DELETE http://localhost/packages/id
+  curl -X DELETE http://localhost/packages/$numid
 
   Principal
 
