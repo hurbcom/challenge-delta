@@ -11,8 +11,6 @@ services:
 
   nodedelta:
     image: vitorta/nodedelta
-    ports:
-    - "8888:8888"
     depends_on: 
       - dbdelta
     networks:
