@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Instalando Docker
-if [[ $(which docker-composer) ]]; then
+if [[ $(which docker-compose) ]]; then
     echo "Compose Instalado"
     
   else
