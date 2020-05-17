@@ -1,16 +1,32 @@
-version: "3.7"
+version: "3.3"
 
 services: 
 
-  db_delta:
-    image: mysql:5.7 
-    environment: 
-      MYSQL_DATABASE: packages
-      MYSQL_USER: user_packages
-      MYSQL_PASSWORD: passwords
+  dbdelta:
+    image: vitorta/dbdelta 
     volumes:
-      - db-delta/database_schema.sql:/docker-entrypoint-initdb.d/database_schema.sql
-      - dbvol:/var/lib/mysql
+      - voldbdelta:/var/lib/mysql
+    networks:
+      - delta   
 
+  nodedelta:
+    image: vitorta/nodedelta
+    ports:
+    - "8888:8888"
+    depends_on: 
+      - dbdelta
+    networks:
+      - delta
+     
+  nginxdelta:
+    image: vitorta/nginxdelta 
+    ports:
+      - "80:80"
+    depends_on: 
+      - nodedelta   
+    networks:
+      - delta      
 volumes:
-  dbvol:
+  voldbdelta:
+networks:
+  delta:
