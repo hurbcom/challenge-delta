@@ -5,8 +5,10 @@ services:
       build:
         context: .
         dockerfile: Dockerfile
-      image: nodejs
+      image: tiago/nodejs-server-hurb-challenge-test 
       container_name: nodejs-server-hurb-test
+      ports:
+        - "8888:8888"
       networks:
         - app-network
     webserver:
@@ -21,17 +23,18 @@ services:
       networks:
         - app-network
     mysql:
-      image: mysql:5.7
+      build:
+         context: ./mysql
+         dockerfile: Dockerfile
+      image: mysql-hurb 
       container_name: mysql-db
       ports:
-        - 3306:3306
-      volumes:
-        - ./mysql:/docker-entrypoint-initdb.d/database_schema.sql
+        - "3306:3306"
       environment:
         MYSQL_ROOT_PASSWORD: passwords
-        MYSQL_DATABASE: packages
         MYSQL_USER: user_packages
         MYSQL_PASSWORD: passwords
+        MYSQL_DATABASE: packages
       networks:
         - app-network
 networks:
