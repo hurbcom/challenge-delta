@@ -3,7 +3,7 @@ version: '3'
 services:
     nodejs:
       build:
-        context: .
+        context: ./app
         dockerfile: Dockerfile
       image: tiago/nodejs-server-hurb-challenge-test 
       container_name: nodejs-server-hurb-test
