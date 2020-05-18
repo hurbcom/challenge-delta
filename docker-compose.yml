@@ -3,13 +3,17 @@ version: "3.3"
 services: 
 
   dbdelta:
-    image: vitorta/dbdelta 
+    env_file:
+      - env.list
+    image: vitorta/dbdelta
     volumes:
       - voldbdelta:/var/lib/mysql
     networks:
       - delta   
 
   nodedelta:
+    env_file:
+      - env.list
     image: vitorta/nodedelta
     depends_on: 
       - dbdelta

@@ -1,3 +1,4 @@
+require('dotenv').config()
 var restify = require('restify');
 var errors = require('restify-errors');
 var mysql = require('mysql');
@@ -7,10 +8,10 @@ if (!port) {
     port = 8888;
 }
 var connection = mysql.createConnection({
-    host: 'dbdelta',
-    user: 'user_packages',
-    password: 'passwords',
-    ports: '3306'
+    host: process.env.DB_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    ports: process.env.DB_PORT
 });
 
 var server = restify.createServer();

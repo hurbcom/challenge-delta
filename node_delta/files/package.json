@@ -11,6 +11,7 @@
   "dependencies": {
     "mysql": "^2.15.0",
     "restify": "^7.0.0",
-    "restify-errors": "^6.0.0"
+    "restify-errors": "^6.0.0",
+    "dotenv": "^8.0.0"
   }
 }

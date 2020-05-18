@@ -29,11 +29,11 @@ cd ../node_delta && docker build -t nodedelta .
 cd ../nginx_delta && docker build -t nginxdelta .
 
 #Inicia os containers
-docker container run -d --name dbdelta --network delta dbdelta
+docker container run --env-file ../env.list -d --name dbdelta --network delta dbdelta
 
 sleep 5
 
-docker container run -d -p 8888:8888 --name nodedelta --network delta nodedelta
+docker container run --env-file ../env.list -d -p 8888:8888 --name nodedelta --network delta nodedelta
 
 sleep 5
 
