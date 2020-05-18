@@ -9,6 +9,10 @@ if [[ $(which docker) ]]; then
     curl -fsSL https://get.docker.com | bash 
 fi
 
+#Ativa Buildkit para utilizar secrets
+
+export DOCKER_BUILDKIT=1
+
 #Cria rede para comunicação dos containers
 if [[ $(docker network ls | grep delta) ]]; then
     echo "Rede delta já existe"
