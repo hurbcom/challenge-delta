@@ -12,7 +12,10 @@ services:
       networks:
         - app-network
     webserver:
-      image: nginx:latest
+      build:
+        context: ./nginx
+        dockerfile: Dockerfile
+      image: nginx-hurb
       container_name: nginx-server
       ports:
         - "80:80"
