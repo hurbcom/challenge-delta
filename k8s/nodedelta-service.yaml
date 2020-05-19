@@ -4,7 +4,7 @@ metadata:
   name: "nodedelta-service"
 spec:
   ports:
-    - port: 80
+    - port: 8888
       targetPort: "nodeport"
       protocol: TCP
   selector:

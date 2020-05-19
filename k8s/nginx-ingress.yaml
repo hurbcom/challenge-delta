@@ -7,7 +7,11 @@ spec:
   - host: localhost
     http:
       paths:
+      - paths: /
+        backend:
+          serviceName: nodedelta-pod
+          servicePort: 80
       - paths: /packages
         backend:
           serviceName: nodedelta-pod
-          servicePort: 8888
+          servicePort: 80    
