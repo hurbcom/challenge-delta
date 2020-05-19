@@ -6,6 +6,7 @@ services:
     env_file:
       - env.list
     image: vitorta/dbdelta
+    container_name: dbdelta
     volumes:
       - voldbdelta:/var/lib/mysql
     networks:
@@ -15,13 +16,15 @@ services:
     env_file:
       - env.list
     image: vitorta/nodedelta
+    container_name: nodedelta
     depends_on: 
       - dbdelta
     networks:
       - delta
      
   nginxdelta:
-    image: vitorta/nginxdelta 
+    image: vitorta/nginxdelta
+    container_name: nginxdelta
     ports:
       - "80:80"
     depends_on: 
