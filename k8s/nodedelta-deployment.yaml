@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "nodedelta"
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: "nodedelta-pod"
+    spec:
+      containers:
+        - name: "nodedelta"
+          image: "vitorta/nodedelta"
+          ports:
+            - name: nodeport
+              containerPort: 8888
+              protocol: TCP
+          env:
+            - name: DB_HOST
+              value: dbdelta
+            - name: DB_PORT
+              value: 3306
+            - name: NODEJS_API_PORT
+              value: 8888
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: mysql-user
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: mysql-password      

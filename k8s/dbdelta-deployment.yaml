@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "dbdelta"
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: "dbdelta-pod"
+    spec:
+      containers:
+        - name: "dbdelta"
+          image: "vitorta/dbdelta"
+          ports:
+            - name: "mysqlport"
+              containerPort: 3306
+          env:
+            - name: MYSQL_DATABASE
+              value: packages
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: mysql-root-password
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: mysql-user
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: mysql-password
+          volumeMounts:
+            - name: "vol-mysql"
+              mountPath: "/var/lib/mysql"
+      volumes:
+        - name: "vol-mysql"
+          persistentVolumeClaim:
+            claimName: mysql-pvc
