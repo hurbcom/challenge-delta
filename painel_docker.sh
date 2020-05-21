@@ -55,26 +55,26 @@ if [[ $(docker network ls | grep delta) ]]; then
 
   else
     echo "Criando rede delta"
-    docker network create -d bridge delta
+    sudo docker network create -d bridge delta
 fi
 
 echo Inicinando o build das imagens
 #Faz o build das imagens
-cd ./db_delta && docker build -t dbdelta .
-cd ../node_delta && docker build -t nodedelta .
-cd ../nginx_delta && docker build -t nginxdelta .
+cd ./db_delta && sudo docker build -t dbdelta .
+cd ../node_delta && sudo docker build -t nodedelta .
+cd ../nginx_delta && sudo docker build -t nginxdelta .
 
 echo Iniciando os cointainers
 #Inicia os containers
-docker container run --env-file ../env.list -d --name dbdelta --network delta dbdelta
+sudo docker container run --env-file ../env.list -d --name dbdelta --network delta dbdelta
 
 sleep 5
 
-docker container run --env-file ../env.list -d -p 8888:8888 --name nodedelta --network delta nodedelta
+sudo docker container run --env-file ../env.list -d -p 8888:8888 --name nodedelta --network delta nodedelta
 
 sleep 5
 
-docker container run -d -p 80:80 --name nginxdelta --network delta nginxdelta
+sudo docker container run -d -p 80:80 --name nginxdelta --network delta nginxdelta
     
   
   
@@ -93,17 +93,17 @@ Desativar() {
 
   echo Parando os container do projeto Delta
 
-  docker container stop nginxdelta nodedelta dbdelta
+  sudo docker container stop nginxdelta nodedelta dbdelta
 
   echo Removendo os containers do projeto Delta
 
-  docker container rm nginxdelta nodedelta dbdelta
+  sudo docker container rm nginxdelta nodedelta dbdelta
 
   #Removendo as imagens
 
   echo Removendo as imagens do projeto Delta
 
-  docker image rm nginxdelta nodedelta dbdelta
+  sudo docker image rm nginxdelta nodedelta dbdelta
   
   Principal
 
