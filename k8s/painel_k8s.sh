@@ -44,7 +44,7 @@ Iniciar() {
 
   echo Realizando Deploy
   
-  echo -n "$(minikube ip) k8sdelta" >> /etc/hosts
+  sudo -- sh -c "echo $(minikube ip) k8sdelta >> /etc/hosts"
   kubectl create namespace delta
   kubectl apply -f secrets.yaml --namespace=delta
   kubectl apply -f dbdelta.yaml --namespace=delta
