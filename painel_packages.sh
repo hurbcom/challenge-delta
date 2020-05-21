@@ -10,7 +10,9 @@ Principal() {
 
   echo "2. Remover pacote via ID"
 
-  echo "3. Sair do menu"
+  echo "3. Listar os pacotes"
+
+  echo "4. Sair do menu"
 
   echo
 
@@ -24,7 +26,9 @@ Principal() {
 
     2) Deletar ;;
 
-    3) exit ;;
+    3) Listar ;;
+
+    4) exit ;;
 
     *) "Opção desconhecida." ; echo ; Principal ;;
 
@@ -42,8 +46,10 @@ Adicionar() {
 
   read pack
 
-  curl -X POST 'http://localhost/packages' -H 'Content-Type: text/plain' -d $pack 
 
+   
+  curl -X POST http://localhost/packages -H 'Content-Type: text/plain' -d $pack 
+  
   Principal
 
 }
@@ -60,6 +66,17 @@ Deletar() {
 
   curl -X DELETE http://localhost/packages/$numid
 
+  Principal
+
+}
+
+Listar() {
+
+  clear
+
+  curl -X GET http://localhost/packages | json_pp
+
+    
   Principal
 
 }
