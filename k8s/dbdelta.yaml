@@ -1,20 +1,52 @@
-apiVersion: extensions/v1beta1
+apiVersion: "v1"
+kind: Service
+metadata:
+  name: "dbdelta-service"
+ 
+spec:
+  ports:
+    - port: 3306
+      targetPort: 3306
+      protocol: TCP
+  selector:
+    app: "dbdelta"
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-volclaim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: "dbdelta"
+  labels: 
+    app: "dbdelta"
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+        app: "dbdelta"
   template:
     metadata:
       labels:
-        name: "dbdelta-pod"
+        app: "dbdelta"
     spec:
       containers:
         - name: "dbdelta"
           image: "vitorta/dbdelta"
           ports:
-            - name: "mysqlport"
-              containerPort: 3306
+            - containerPort: 3306
           env:
             - name: MYSQL_DATABASE
               value: packages
@@ -34,9 +66,9 @@ spec:
                   name: mysql-secrets
                   key: mysql-password
           volumeMounts:
-            - name: "vol-mysql"
+            - name: "volclaim-mysql"
               mountPath: "/var/lib/mysql"
       volumes:
-        - name: "vol-mysql"
+        - name: "volclaim-mysql"
           persistentVolumeClaim:
-            claimName: mysql-pvc
+            claimName: mysql-volclaim

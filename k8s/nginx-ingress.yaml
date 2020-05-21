@@ -2,16 +2,17 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: rotadelta
+  
 spec:
   rules:
-  - host: localhost
+  - host: k8sdelta
     http:
       paths:
-      - paths: /
+      - path: /
         backend:
-          serviceName: nodedelta-pod
-          servicePort: 80
-      - paths: /packages
+          serviceName: nodedelta-service
+          servicePort: 8888
+      - path: /packages
         backend:
-          serviceName: nodedelta-pod
-          servicePort: 80    
+          serviceName: nodedelta-service
+          servicePort: 8888
