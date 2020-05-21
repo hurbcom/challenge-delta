@@ -33,6 +33,7 @@ Fiz a resolução do desafio com as seguintes opções:
 ### Subir o ambiente usando Minikube
 - Utilizar SO Linux(Ambiente foi testado com Ubuntu 18)
 - Ter instalado o minikube(Foi testado na versão 1.9.2)
+- Subir o ambiente com permissão elevada(root ou administrator caso rode no windows)
 - Na pasta ./k8s do repositório rodar o script painel_k8s.sh
     - Escolher as opções de acordo com a ação:
  
