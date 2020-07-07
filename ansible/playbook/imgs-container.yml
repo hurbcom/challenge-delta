@@ -1,0 +1,7 @@
+---
+- hosts: local
+  roles:
+          - dockerFile
+          - node
+          - mysql
+          - nginx

@@ -1,0 +1,62 @@
+---
+# tasks file for containers
+
+- name: Create a network
+  docker_network:
+    name: lab
+    ipam_options:
+            subnet: '172.17.0.0/24'
+            gateway: '172.17.0.1'
+
+- name: criando container node
+  docker_container:
+    name: node
+    image: nodejs:v1.0
+    exposed_ports:
+            - 8080
+    interactive: true
+    networks:
+            - name: lab
+              ipv4_address: 172.17.0.3
+
+- name: criando container sql
+  docker_compose:
+          project_src: /root/desafio-challenge-delta/dockerfile/sql/
+          files: docker-compose.yml
+          state: present
+
+- pause:
+    seconds: 20
+
+- name: Mysql Configuration - Resetting RootPassword
+  mysql_user:
+    login_user: root
+    login_password: senha.123
+    name: root
+    host_all: yes 
+
+- pause:
+    seconds: 20
+
+- name: Restore database
+  mysql_db:
+    login_user: root
+    login_password: senha.123
+    login_host: 192.168.15.12
+    login_port: 3306
+    state: import
+    name: all
+    target: /tmp/desafio/database/database_schema.sql
+
+
+- name: criando container nginx
+  docker_container:
+    name: nginx
+    image: nginx:v1.0
+    ports:
+            - "80:8080"
+    interactive: true
+    networks:
+            - name: lab
+              ipv4_address: 172.17.0.4
+

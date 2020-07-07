@@ -1,0 +1,8 @@
+---
+# tasks file for node
+- name: docker
+  docker_image:
+    dockerfile: /tmp/desafio/dockerfile/sql/sql.Dockerfile
+    path: /etc/ansible
+    name: sql
+    tag: v1.0

@@ -1,0 +1,7 @@
+---
+# tasks file for dockerFile
+
+- name: Clone a repo with separate git directory
+  git:
+    repo: https://github.com/henriquenogueira/desafio-challenge-delta.git
+    dest: /tmp/desafio/

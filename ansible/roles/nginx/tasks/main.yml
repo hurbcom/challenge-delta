@@ -1,0 +1,8 @@
+---
+# tasks file for node
+- name: docker
+  docker_image:
+    dockerfile: /tmp/desafio/dockerfile/nginx/nginx.Dockerfile
+    path: /etc/ansible
+    name: nginx
+    tag: v1.0
