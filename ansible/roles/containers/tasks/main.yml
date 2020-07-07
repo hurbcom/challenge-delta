@@ -1,14 +1,14 @@
 ---
 # tasks file for containers
 
-- name: Create a network
+- name: Create a rede
   docker_network:
     name: lab
     ipam_options:
             subnet: '172.17.0.0/24'
             gateway: '172.17.0.1'
 
-- name: criando container node
+- name: Criando container node
   docker_container:
     name: node
     image: nodejs:v1.0
@@ -19,7 +19,7 @@
             - name: lab
               ipv4_address: 172.17.0.3
 
-- name: criando container sql
+- name: Criando container sql
   docker_compose:
           project_src: /root/desafio-challenge-delta/dockerfile/sql/
           files: docker-compose.yml
@@ -28,7 +28,7 @@
 - pause:
     seconds: 20
 
-- name: Mysql Configuration - Resetting RootPassword
+- name: Mysql Configuracao - Reset RootPassword
   mysql_user:
     login_user: root
     login_password: senha.123
@@ -38,7 +38,7 @@
 - pause:
     seconds: 20
 
-- name: Restore database
+- name: Restore banco
   mysql_db:
     login_user: root
     login_password: senha.123

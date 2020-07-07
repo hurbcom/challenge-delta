@@ -6,6 +6,8 @@ var port = process.env.NODEJS_API_PORT;
 if (!port) {
     port = 8888;
 }
+
+// conexao com o banco
 var connection = mysql.createConnection({
     host: '192.168.15.12',
     port: '3306',

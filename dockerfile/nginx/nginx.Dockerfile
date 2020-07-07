@@ -1,3 +1,5 @@
+#Dockerfile criado para subir img do container de nginx
+#SO = Ubuntu | Excuta atulizacoes de SO e Upgrades Necessarios | Obtem as confis do GIT, aplica e inicia o serviço
 FROM ubuntu:latest
 RUN apt update -y && apt upgrade -y
 RUN apt install nginx -y && apt install git -y && apt install wget -y
