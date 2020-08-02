@@ -5,6 +5,13 @@ WORKDIR /app
 COPY . .
 
 RUN set -x \
-    && npm install
+    && npm install \
+    && chmod +x entrypoint.sh
 
-CMD [ "node", "./server.js" ]
+# TODO use another user
+
+ENV SERVER_PORT=8888
+
+EXPOSE 8888
+
+CMD [ "/app/entrypoint.sh" ]
