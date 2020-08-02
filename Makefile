@@ -1,5 +1,15 @@
-APP_IMAGE_TAG=thenets/hurb-app
-LOADBALANCER_IMAGE_TAG=thenets/hurb-loadbalancer
+##
+# This Makefile should be used exclusively on development environment.
+##
+
+# Container names
+APP_CONTAINER_NAME=hurb-app
+LOADBALANCER_CONTAINER_NAME=hurb-loadbalancer
+DATABASE_CONTAINER_NAME=hurb-database
+
+# Container image tags
+APP_IMAGE_TAG=thenets/$(APP_CONTAINER_NAME)
+LOADBALANCER_IMAGE_TAG=thenets/$(LOADBALANCER_CONTAINER_NAME)
 
 # Build
 docker-build: docker-build-app
@@ -15,15 +25,29 @@ docker-build-loadbalancer:
 # Run
 docker-run-app: docker-build-app
 	docker run -it --rm \
-		--name hurb-app \
+		--name $(APP_CONTAINER_NAME) \
 		-p 8888:8888 \
-		$(APP_IMAGE_TAG)
+		$(APP_IMAGE_TAG) $(CMD)
 
 docker-run-loadbalancer: docker-build-loadbalancer
 	docker run -it --rm \
-		--name hurb-loadbalancer \
+		--name $(LOADBALANCER_CONTAINER_NAME) \
 		-p 80:80 \
-		-u root \
 		$(LOADBALANCER_IMAGE_TAG)
 
+docker-run-database:
+	docker run --rm \
+		--name $(DATABASE_CONTAINER_NAME) \
+		-p 3306:3306 \
+		-e "MYSQL_ROOT_PASSWORD=SoQueroQueIssoDesisto" \
+		mysql:5
 
+
+# Helpers
+compose-up: cleanup
+	docker-compose build
+	docker-compose up
+cleanup:
+	docker rm -f $$(docker ps -qa)
+	docker system prune -f
+	docker volume rm -f challengedelta_database_data
