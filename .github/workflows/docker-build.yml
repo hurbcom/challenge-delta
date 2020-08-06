@@ -1,0 +1,36 @@
+name: Build Docker images
+
+on:
+  push:
+    branches:
+    - github-action
+  pull_request:
+    branches:
+    - github-action
+
+  docker-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build and push App
+        uses: docker/build-push-action@v1
+        with:
+          username: thenets
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          repository: thenets/challenge-delta
+          tag_with_ref: true
+          path: ./src/app
+
+      - name: Build and push Load Balancer
+        uses: docker/build-push-action@v1
+        with:
+          username: thenets
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          repository: thenets/challenge-delta
+          tag_with_ref: true
+          path: ./src/loadbalancer
