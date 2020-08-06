@@ -1,26 +1,30 @@
 version: '3'
 
 services:
-  # loadbalancer:
-  #   build: ./src/loadbalancer/
-  #   restart: unless-stopped
-  #   networks:
-  #    - public
-  #   depends_on:
-  #     - app
+  loadbalancer:
+    build: ./src/loadbalancer/
+    image: docker.pkg.github.com/thenets/challenge-delta/loadbalancer:latest
+    restart: unless-stopped
+    ports:
+      - 3000:80
+    networks:
+     - public
+    depends_on:
+      - app
 
-  # app:
-  #   build: ./src/app/
-  #   restart: unless-stopped
-  #   environment:
-  #     MYSQL_HOST: "database"
-  #     MYSQL_USER: "root"
-  #     MYSQL_PASS: "QueroCafe"
-  #   networks:
-  #    - public
-  #    - private
-  #   depends_on:
-  #     - database
+  app:
+    build: ./src/app/
+    image: docker.pkg.github.com/thenets/challenge-delta/app:latest
+    restart: unless-stopped
+    environment:
+      MYSQL_HOST: "database"
+      MYSQL_USER: "root"
+      MYSQL_PASS: "QueroCafe"
+    networks:
+     - public
+     - private
+    depends_on:
+      - database
 
   database:
     image: mysql:5
