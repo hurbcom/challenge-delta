@@ -6,4 +6,4 @@ CREATE TABLE `offer` (
   `Text` varchar(255) NOT NULL,
   `CreateDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+);

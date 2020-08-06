@@ -6,6 +6,7 @@ set -ex
 sleep 5
 
 # Run migrations
+npx sequelize-cli db:create
 node migration.js
 
 # Start main application

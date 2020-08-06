@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 var restify = require('restify');
 var errors = require('restify-errors');
 var mysql = require('mysql');

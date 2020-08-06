@@ -9,8 +9,12 @@
   "author": "Hurb",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "mysql": "^2.15.0",
+    "mysql2": "^2.1.0",
+    "npx": "^10.2.2",
     "restify": "^7.0.0",
-    "restify-errors": "^6.0.0"
+    "restify-errors": "^6.0.0",
+    "sequelize": "^6.3.4"
   }
 }
