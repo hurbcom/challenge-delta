@@ -22,7 +22,7 @@ jobs:
           username: thenets
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          repository: thenets/challenge-delta
+          repository: thenets/challenge-delta/app
           tag_with_ref: true
           path: ./src/app
 
@@ -32,6 +32,6 @@ jobs:
           username: thenets
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          repository: thenets/challenge-delta
+          repository: thenets/challenge-delta/loadbalancer
           tag_with_ref: true
           path: ./src/loadbalancer
