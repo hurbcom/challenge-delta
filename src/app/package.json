@@ -13,7 +13,8 @@
     "mysql": "^2.15.0",
     "mysql2": "^2.1.0",
     "npx": "^10.2.2",
-    "restify": "^7.0.0",
+    "restify": "^8.5.1",
+    "restify-cors-middleware": "^1.1.1",
     "restify-errors": "^6.0.0",
     "sequelize": "^6.3.4"
   }
