@@ -2,6 +2,8 @@
 
 Exemplo de projeto que segue boas práticas de como trabalhar com container e CI utilizando o GitHub Action.
 
+![Infra Docker](./docs/infra.png)
+
 ## Requisitos
 
 Vocês precisará das seguintes aplicações para executar o ambiente:
@@ -9,28 +11,13 @@ Vocês precisará das seguintes aplicações para executar o ambiente:
 - docker
 - docker-compose
 - git
-- microk8s (desenvolvimento)
 
 ```bash
 # Se você estiver utilizando o Ubuntu 18.04 ou 20.04,
 # execute os comandos abaixo.
 sudo apt-get update
 sudo apt-get install -y \
-	docker-compose docker.io git snapd
-sudo snap install microk8s --classic
-```
-
-## Como executa a aplicação
-
-Se você deseja apenas testar as aplicações, a maneira mais simples é utilizar o `docker-compose.yml` e baixar as imagens do registry do GitHub:
-
-```bash
-# Clone o repositório e entre no diretório
-git clone https://github.com/thenets/challenge-delta.git
-cd ./challenge-delta/
-
-# Execute o docker-compose
-docker-compose up
+	docker.io docker-compose git
 ```
 
 ## Como construir e executar localmente (desenvolvimento)
@@ -45,4 +32,13 @@ docker-compose build
 
 # Execute o docker-compose
 docker-compose up
+```
+
+
+## Como executar no Kubernetes
+
+O manifesto `./k8s/dedsec-app.yml` possui todas as informações que você precisará para levantar a aplicação. Será criado um novo `Namespace`, `ConfigMap`, `Deployment` e `Service`.
+
+```bash
+kubectl apply -f ./k8s/deployment.yml
 ```
