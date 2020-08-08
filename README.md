@@ -1,5 +1,7 @@
 # challenge-delta
 
+![Build Docker images](https://github.com/thenets/challenge-delta/workflows/Build%20Docker%20images/badge.svg)
+
 Exemplo de projeto que segue boas práticas de como trabalhar com container e CI utilizando o GitHub Action.
 
 ![Infra Docker](./docs/infra.png)
