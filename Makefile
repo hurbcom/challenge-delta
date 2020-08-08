@@ -39,9 +39,8 @@ docker-run-database:
 	docker run --rm \
 		--name $(DATABASE_CONTAINER_NAME) \
 		-p 3306:3306 \
-		-e "MYSQL_ROOT_PASSWORD=SoQueroQueIssoDesisto" \
+		-e "MYSQL_ROOT_PASSWORD=QueroCafe" \
 		mysql:5
-
 
 # Helpers
 compose-up: cleanup
