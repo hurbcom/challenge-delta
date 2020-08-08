@@ -12,7 +12,7 @@ APP_IMAGE_TAG=thenets/$(APP_CONTAINER_NAME)
 LOADBALANCER_IMAGE_TAG=thenets/$(LOADBALANCER_CONTAINER_NAME)
 
 # Build
-docker-build: docker-build-app
+docker-build: docker-build-app docker-build-loadbalancer
 
 docker-build-app:
 	cd src/app \

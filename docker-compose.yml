@@ -36,21 +36,20 @@ services:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       timeout: 20s
       retries: 10
-    # EXPOSE PORTS FOR DEBUGGING
-    ports:
-      - 3306:3306
+    # ports:
+    #   - 3306:3306
     volumes:
       - "database_data:/var/lib/mysql"
     networks:
      - private
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
-    networks:
-     - private
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
+  #   networks:
+  #    - private
 
 networks:
   public:
