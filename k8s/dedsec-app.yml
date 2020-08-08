@@ -1,0 +1,118 @@
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dedsec
+---
+
+# ConfigMap
+# TODO move the `password` to k8s Secret or Hashicorp Vault
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: database-env
+  namespace: dedsec
+data:
+  MYSQL_ROOT_PASSWORD: 'QueroCafe'
+  MYSQL_HOST: 'database-service.dedsec.svc.cluster.local'
+  MYSQL_USER: 'root'
+---
+
+# Database
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dedsec-database
+  namespace: dedsec
+  labels:
+    app: dedsec-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dedsec-database
+  template:
+    metadata:
+      labels:
+        app: dedsec-database
+    spec:
+      containers:
+      - name: database
+        image: mysql:5
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: database-env
+              key: MYSQL_ROOT_PASSWORD
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: database-service
+  namespace: dedsec
+spec:
+  type: ClusterIP
+  selector:
+    app: dedsec-database
+  ports:
+  - protocol: "TCP"
+    port: 3306
+    targetPort: 3306
+---
+
+# Application
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dedsec-app
+  namespace: dedsec
+  labels:
+    app: dedsec-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dedsec-app
+  template:
+    metadata:
+      labels:
+        app: dedsec-app
+    spec:
+      containers:
+      - name: app
+        image: thenets/challenge-delta:app
+        ports:
+        - containerPort: 8888
+        env:
+        - name: MYSQL_PASS
+          valueFrom:
+            configMapKeyRef:
+              name: database-env
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: database-env
+              key: MYSQL_HOST
+        - name: MYSQL_USER
+          valueFrom:
+            configMapKeyRef:
+              name: database-env
+              key: MYSQL_USER
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+  namespace: dedsec
+spec:
+  type: LoadBalancer
+  selector:
+    app: dedsec-app
+  ports:
+  - protocol: "TCP"
+    port: 80
+    targetPort: 8888
