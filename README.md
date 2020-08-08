@@ -4,7 +4,7 @@ Exemplo de projeto que segue boas práticas de como trabalhar com container e CI
 
 ![Infra Docker](./docs/infra.png)
 
-## Requisitos
+## 🐱‍💻 Requisitos
 
 Vocês precisará das seguintes aplicações para executar o ambiente:
 
@@ -20,7 +20,7 @@ sudo apt-get install -y \
 	docker.io docker-compose git
 ```
 
-## Como construir e executar localmente (desenvolvimento)
+## 🐳 Como construir e executar localmente (desenvolvimento)
 
 ```bash
 # Clone o repositório e entre no diretório
@@ -35,10 +35,10 @@ docker-compose up
 ```
 
 
-## Como executar no Kubernetes
+## ☸ Como executar no Kubernetes
 
 O manifesto `./k8s/dedsec-app.yml` possui todas as informações que você precisará para levantar a aplicação. Será criado um novo `Namespace`, `ConfigMap`, `Deployment` e `Service`.
 
 ```bash
-kubectl apply -f ./k8s/deployment.yml
+kubectl apply -f ./k8s/dedsec-app.yml
 ```
