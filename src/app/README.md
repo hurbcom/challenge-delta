@@ -1,18 +1,8 @@
 # app
 
-## Migrations
+## Alterações
 
-```bash
-# Create Sequelize files
-npx sequelize-cli init
-
-# Create database
-npx sequelize-cli db:create
-
-# Create table
-npx sequelize-cli model:generate \
-    --name offer \
-    --attributes Id:integer,Text:string,CreateDate:date
-
-# Run migration
-npx sequelize-cli db:migrate
+- Adicionado suporte para variáveis de ambiente
+- Adicionado suporte para CORS (desenvolvimento)
+- Criado database migrations com o Sequelize
+- Pacotes foram atualizados
