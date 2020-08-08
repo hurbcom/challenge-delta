@@ -42,3 +42,29 @@ O manifesto `./k8s/dedsec-app.yml` possui todas as informações que você preci
 ```bash
 kubectl apply -f ./k8s/dedsec-app.yml
 ```
+
+
+## Como testar a aplicação
+
+Exemplo de como acessar a aplicação, considerando que o ambiente foi criado com o `docker-compose.yml`:
+
+```bash
+# Adicionar `offer`
+curl -X POST \
+	-H "Content-Type: application/x-www-form-urlencoded" \
+	-d "Watch Dogs 2" \
+	http://localhost:3000/packages/
+curl -X POST \
+	-H "Content-Type: application/x-www-form-urlencoded" \
+	-d "The Legend of Zelda - The Minish Cap" \
+	http://localhost:3000/packages/
+
+# Listar `offers`
+curl http://localhost:3000/packages/
+
+# Remover `offer`
+curl -X DELETE http://localhost:3000/packages/1
+
+# Listar `offers`
+curl http://localhost:3000/packages/
+```
