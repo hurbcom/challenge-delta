@@ -15,8 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   offer.init({
     Id: DataTypes.INTEGER,
-    Text: DataTypes.STRING,
-    CreateDate: DataTypes.DATE
+    Text: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'offer',

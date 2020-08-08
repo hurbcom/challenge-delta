@@ -10,10 +10,6 @@ module.exports = {
       },
       Text: {
         type: Sequelize.STRING
-      },
-      CreateDate: {
-        allowNull: false,
-        type: Sequelize.DATE
       }
     });
   },
