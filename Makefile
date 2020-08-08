@@ -49,4 +49,4 @@ compose-up: cleanup
 cleanup:
 	docker rm -f $$(docker ps -qa) || true
 	docker system prune -f
-	docker volume rm -f challengedelta_database_data
+	docker volume rm -f challenge-delta_database_data

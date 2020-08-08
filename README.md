@@ -50,6 +50,8 @@ kubectl apply -f ./k8s/dedsec-app.yml
 
 Exemplo de como acessar a aplicação, considerando que o ambiente foi criado com o `docker-compose.yml`:
 
+![Como utilizar](./docs/how2use.svg)
+
 ```bash
 # Adicionar `offer`
 curl -X POST \
