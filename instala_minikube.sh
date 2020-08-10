@@ -8,6 +8,12 @@ function instala_minikube(){
 	minikube start
 }
 
+function instala_kubectl(){
+	curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+	chmod +x ./kubectl
+	sudo mv ./kubectl /usr/local/bin/kubectl
+}
+
 function verifica_minikube(){
 	if [ `minikube version > /dev/null 2>&1; echo $?` -eq 0 ]
 	then
@@ -17,4 +23,15 @@ function verifica_minikube(){
 	fi
 }
 
+function verifica_kubectl(){
+        if [ `kubectl version > /dev/null 2>&1; echo $?` -le 1 ]
+        then
+                echo "Kubectl instalado"
+        else
+                instala_kubectl
+        fi
+
+}
+
 verifica_minikube
+verifica_kubectl

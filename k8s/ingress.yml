@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /packages
+spec:
+  rules:
+  - host: desafio-hurb
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: nodejs-service
+          servicePort: 8888
