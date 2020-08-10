@@ -1,0 +1,246 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: challenge-delta
+spec: {}
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: challenge-delta-db
+  namespace: challenge-delta
+data:
+  database_schema.sql: |
+    CREATE TABLE `packages`.`offer` (
+      `Id` int(11) NOT NULL AUTO_INCREMENT,
+      `Text` varchar(255) NOT NULL,
+      `CreateDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY (`Id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: challenge-delta-db
+  namespace: challenge-delta
+type: Opaque
+data:
+  MYSQL_ROOT_PASSWORD: "UXR4UzlWdDRAMw=="
+  MYSQL_USER: "dXNlcg=="
+  MYSQL_PASSWORD: "UXR4UzlWdDQ="
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    app: challenge-delta-db
+  name: challenge-delta-db
+  namespace: challenge-delta
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: challenge-delta-db
+  template:
+    metadata:
+      labels:
+        app: challenge-delta-db
+    spec:
+      containers:
+        - name: challenge-delta-db
+          image: mysql:5.7.31
+          imagePullPolicy: Always
+          env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: challenge-delta-db
+                key: MYSQL_ROOT_PASSWORD
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: challenge-delta-db
+                key: MYSQL_USER
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: challenge-delta-db
+                key: MYSQL_PASSWORD
+          - name: MYSQL_DATABASE
+            value: packages
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources: {}
+          volumeMounts:
+          - name: config-volume
+            mountPath: /docker-entrypoint-initdb.d/database_schema.sql
+            subPath: database_schema.sql
+      dnsPolicy: ClusterFirst
+      nodeSelector: {}
+      restartPolicy: Always
+      securityContext:
+        fsGroup: 200
+      volumes:
+        - name: config-volume
+          configMap:
+            name: challenge-delta-db
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: challenge-delta-db
+  namespace: challenge-delta
+spec:
+  selector:
+    app: challenge-delta-db
+  type: ClusterIP
+  ports:
+  - name: challenge-delta-db
+    port: 3306
+    targetPort: 3306
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    app: challenge-delta-api
+  name: challenge-delta-api
+  namespace: challenge-delta
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: challenge-delta-api
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: challenge-delta-api
+    spec:
+      containers:
+        - name: challenge-delta-api
+          image: johnjohnofficial/challenge-delta-api:latest
+          imagePullPolicy: Always
+          env:
+          - name: NODEJS_API_PORT
+            value: "8888"
+          - name: MYSQL_HOST
+            value: "challenge-delta-db"
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: challenge-delta-db
+                key: MYSQL_USER
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: challenge-delta-db
+                key: MYSQL_PASSWORD
+          ports:
+          - containerPort: 8888
+            protocol: TCP
+          resources: {}
+          volumeMounts: []
+      dnsPolicy: ClusterFirst
+      nodeSelector: {}
+      restartPolicy: Always
+      securityContext:
+        fsGroup: 200
+      volumes: []
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: challenge-delta-api
+  namespace: challenge-delta
+spec:
+  selector:
+    app: challenge-delta-api
+  type: ClusterIP
+  ports:
+  - name: challenge-delta-api
+    port: 8888
+    targetPort: 8888
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    app: challenge-delta-proxy
+  name: challenge-delta-proxy
+  namespace: challenge-delta
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: challenge-delta-proxy
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: challenge-delta-proxy
+    spec:
+      containers:
+        - name: challenge-delta-proxy
+          image: johnjohnofficial/challenge-delta-proxy:latest
+          imagePullPolicy: Always
+          env:
+          - name: NGINX_PORT
+            value: "80"
+          - name: API_HOST
+            value: "challenge-delta-api"
+          - name: API_PORT
+            value: "8888"
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          volumeMounts: []
+      dnsPolicy: ClusterFirst
+      nodeSelector: {}
+      restartPolicy: Always
+      securityContext:
+        fsGroup: 200
+      volumes: []
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: challenge-delta-proxy
+  namespace: challenge-delta
+spec:
+  type: NodePort
+  selector:
+    app: challenge-delta-proxy
+  ports:
+  - name: challenge-delta-proxy
+    port: 80
+    targetPort: 80
