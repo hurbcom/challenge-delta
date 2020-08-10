@@ -9,10 +9,6 @@ server {
         return 301 http://$host/packages;
     }
 
-    location ~ ^/(\?.*)? {
-        return 301 http://$host/packages;
-    }
-
     location ~ ^/packages|/$ {
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
