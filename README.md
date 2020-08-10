@@ -1,7 +1,6 @@
 # <img src="https://avatars1.githubusercontent.com/u/7063040?v=4&s=200.jpg" alt="HU" width="24" /> Desafio Delta - João Ferreira
 
 O projeto consiste em uma API implementada com Node.js​ + MySQL​ para criação e consulta de pacotes.
-Você deve:
 
 ## Diagrama da infraestrutura do projeto
 
@@ -25,11 +24,11 @@ Você deve:
 
   $ cd ./challenge-delta/
 
-  # Contrua as imagens
+  # Construa as imagens
 
   $ docker-compose build
 
-  # Execute o compose (O parametro -d faz a aplicação executar em backgroud)
+  # Execute o compose (O parametro -d faz a aplicação executar em background)
 
   $ docker-compose up -d
 ```
@@ -60,7 +59,7 @@ Você deve:
 <img src="./docs/request-post.png">
 
 - Lista os pacotes cadastrados
-<img src="./docs/request-get.png" width="300">
+<img src="./docs/request-get.png">
 
 - Deleta um pacote pelo ID do pacote
-<img src="./docs/request-delete.png" width="300">
+<img src="./docs/request-delete.png">
