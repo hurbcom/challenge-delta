@@ -5,14 +5,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: mysql
+      app: mysql-server
   template:
     metadata:
       labels:
-        app: mysql
+        app: mysql-server
     spec:
       containers:
-      - name: mysql
+      - name: mysql-server
         image: fmottamendes/mysql_image
         ports:
         - containerPort: 3306

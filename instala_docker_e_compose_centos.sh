@@ -1,6 +1,8 @@
 #!/bin/bash
 
 function instala_docker(){
+	sudo setenforce 0
+	sudo systemctl stop firewalld
 	sudo yum install -y yum-utils
 	sudo yum-config-manager \
     --add-repo \

@@ -11,5 +11,5 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: nodejs-service
+          serviceName: nodejs-server
           servicePort: 8888

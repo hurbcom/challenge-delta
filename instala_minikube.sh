@@ -1,11 +1,15 @@
 #!/bin/bash
 
 function instala_minikube(){
+	sudo setenforce 0
+	sudo systemctl stop firewalld
 	sudo curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
   && sudo chmod +x minikube
 	sudo mkdir -p /usr/local/bin/
 	sudo install minikube /usr/local/bin/
+	rm -f minikube
 	minikube start
+	minikube addons enable ingress
 }
 
 function instala_kubectl(){
