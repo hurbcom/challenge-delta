@@ -1,5 +1,7 @@
 # <img src="https://avatars1.githubusercontent.com/u/7063040?v=4&s=200.jpg" alt="HU" width="24" /> Desafio Delta
 
+**Obs.: Os scripts desativam o SElinux e Iptables, não utilize em produção**
+
 Desafio executado utilizando Docker, Docker Compose e Kubernetes(Minikube):
 - Iniciando o ambiente com o Docker:
     -   Execute o comando `git clone https://github.com/fmottamendes/challenge-delta` para clonar o repositório.
