@@ -1,0 +1,38 @@
+version: '3'
+services:
+  mysql-server:
+    build: 
+      context: .
+      dockerfile: db/Dockerfile
+    networks:
+      - db_node_network
+    container_name: mysql-server
+
+  nodejs-server:
+    build:
+      context: .
+      dockerfile: nodejs/Dockerfile
+    depends_on:
+      - mysql-server
+    container_name: nodejs-server
+    networks:
+      - db_node_network
+      - node_proxy_network
+
+  nginx-server:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    depends_on:
+      - nodejs-server
+    container_name: nginx-server
+    networks:
+      - node_proxy_network
+    ports:
+      - 80:80
+
+networks:
+  db_node_network:
+    driver: bridge
+  node_proxy_network:
+    driver: bridge

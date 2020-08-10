@@ -1,5 +1,10 @@
 # <img src="https://avatars1.githubusercontent.com/u/7063040?v=4&s=200.jpg" alt="HU" width="24" /> Desafio Delta
 
+Desafio executado utilizando docker e docker-compose:
+- Iniciando o ambiente com o docker:
+    -   Execute o comando `git clone https://github.com/fmottamendes/challenge-delta`
+    -   Execute o comando `bash docker.sh start`, para iniciar os containers.
+    -   
 Como DevOps voce vai desenhar e implementar arquitetura e sistemas relacionados a build, release, deploy e configurações de aplicações, assim como manter-se atualizado com as tecnologias de mercado.
 
 Este estudo de caso tem como objetivo testar as habilidades relevantes para esta função. Por favor leia todas as instruções e responda todas as questões.
