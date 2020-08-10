@@ -25,9 +25,9 @@ case $1 in
 		docker build -t nginx_image -f nginx/Dockerfile .
 		docker run -d --name nginx-server -p 80:80 --network node_proxy_network nginx_image
 		echo ""
-		echo ""
+		echo "#####################################################################################################"
                 echo "A aplicação pode ser acessada pelo endereço http://localhost(local) ou http://seu_ip(local e externo)"
-		echo ""
+		echo "#####################################################################################################"
 		;;
 	"stop")
 		verifica_docker

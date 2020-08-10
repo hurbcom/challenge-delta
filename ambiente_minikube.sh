@@ -6,10 +6,11 @@ function inicia_kubernetes(){
 	kubectl apply -f k8s/ingress.yml
 	ip=`minikube ip`
 	echo ""
+	echo "######################################################################################"
 	echo "Adicione a entrada abaixo no arquivo /etc/hosts da máquina que irá acessar a aplicação"
 	echo "$ip	desafio-hurb"
 	echo "Acesse no navegador o endereço http://desafio-hurb"
-	echo ""
+	echo "######################################################################################"
 }
 
 function verifica_minikube(){
