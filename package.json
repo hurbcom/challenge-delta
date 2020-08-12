@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no packages\" && exit 1"
+    "test": "echo \"Error: no packages\" && exit 1",
+    "start": "node server.js"
   },
   "author": "Hurb",
   "license": "ISC",
