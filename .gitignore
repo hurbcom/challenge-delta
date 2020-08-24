@@ -1,0 +1,7 @@
+**/docker-compose
+**/jq
+**/kubectl
+**/minikube
+
+**/node_modules
+**/npm-debug.log
