@@ -50,7 +50,6 @@ eval $($MINIKUBE_PATH -p minikube docker-env --shell bash)
 MINIKUBE_IP="$($MINIKUBE_PATH ip)"
 
 function _createImages() {
-
     docker build -f docker/app.dockerfile -t "$APP_IMAGE_NAME" --build-arg IMAGE="$APP_BASE_IMAGE" .
     docker build -f docker/db.dockerfile -t "$DB_IMAGE_NAME" --build-arg IMAGE="$DB_BASE_IMAGE" .
     docker build -f docker/proxy.dockerfile -t "$PROXY_IMAGE_NAME" --build-arg IMAGE="$PROXY_BASE_IMAGE" .

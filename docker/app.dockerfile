@@ -8,9 +8,7 @@ WORKDIR /app
 
 COPY ./src/package.json .
 
-# Existem pacotes com vulnerabilidade. Os comandos abaixo, além de instalar as dependências, os corrigem conforme
-# recomendação.
-
+# There are packages with vulnerability. The commands below, in addition to installing the dependencies, correct them as recommendation.
 RUN npm --version \
     && npm install \
     && npm fund \
