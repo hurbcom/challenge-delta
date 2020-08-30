@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+  - name: install dependencies
+    package:
+      name: 
+        - docker
+        - minikube
+        - helm
+      state: present
