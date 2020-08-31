@@ -2,8 +2,8 @@ FROM node:alpine
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
-COPY server.js ./
+COPY app/src/package.json ./
+COPY app/src/server.js ./
 
 RUN npm install
 
