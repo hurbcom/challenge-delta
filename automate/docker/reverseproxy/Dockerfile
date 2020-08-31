@@ -1,5 +1,6 @@
 FROM nginx:stable-alpine
 
-COPY automate/reserveproxy/hurb.conf /etc/nginx/conf.d/default.conf
+RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+    && ln -sf /dev/stderr /var/log/nginx/error.log
 
-EXPOSE 80
+ADD automate/docker/reverseproxy/hurb.conf.template /etc/nginx/templates/default.conf.template
