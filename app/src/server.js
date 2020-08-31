@@ -7,7 +7,7 @@ if (!port) {
     port = 8888;
 }
 var connection = mysql.createConnection({
-    host: 'localhost',
+    host: 'db',
     user: 'user_packages',
     password: 'passwords'
 });
