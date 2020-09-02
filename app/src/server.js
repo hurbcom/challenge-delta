@@ -1,18 +1,18 @@
-var restify = require('restify');
-var errors = require('restify-errors');
-var mysql = require('mysql');
+const restify = require('restify');
+const errors = require('restify-errors');
+const mysql = require('mysql');
+const port = process.env.NODEJS_API_PORT || '8888';
+const dbUrl = process.env.MYSQL_URL || 'db';
+const dbUsername = process.env.MYSQL_USER || 'user_packages';
+const dbPassword = process.env.MYSQL_PASSWORD || 'passwords';
 
-var port = process.env.NODEJS_API_PORT;
-if (!port) {
-    port = 8888;
-}
-var connection = mysql.createConnection({
-    host: 'db',
-    user: 'user_packages',
-    password: 'passwords'
+const connection = mysql.createConnection({
+    host: dbUrl,
+    user: dbUsername,
+    password: dbPassword
 });
 
-var server = restify.createServer();
+const server = restify.createServer();
 
 server.use(restify.plugins.bodyParser());
 
@@ -35,7 +35,7 @@ server.post('/packages', function (request, response, next) {
 
 // delete packages
 server.del('/packages/:id', function (request, response, next) {
-    var id = request.params.id;
+    const id = request.params.id;
     
     if(!id || id <= 0) { return next(new errors.BadRequestError("id inválido")); }
     

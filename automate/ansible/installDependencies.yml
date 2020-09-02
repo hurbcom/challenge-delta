@@ -5,8 +5,8 @@
   - name: install dependencies
     package:
       name: 
+        - make
         - docker
         - minikube
-        - helm
-        - virtualbox
+        - kubectl
       state: present

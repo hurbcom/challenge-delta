@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reverseproxy
+  labels:
+    app: reverseproxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reverseproxy
+  template:
+    metadata:
+      labels:
+        app: reverseproxy
+    spec:
+      containers:
+      - name: reverseproxy
+        image: "reverseproxy:latest"
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        env:
+        - name: NGINX_PORT
+          value: 8080
+        - name: API_HOST
+          value: nodeapp
+        - name: API_PORT
+          value: 8888

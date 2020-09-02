@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db
+  namespace: challenge-delta
+type: Opaque
+data:
+  MYSQL_ROOT_PASSWORD: JWQzczRmITAlaHVyYg==
+  MYSQL_USER: "dXNlcl9wYWNrYWdlcw=="
+  MYSQL_PASSWORD: "cGFzc3dvcmRz"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: db-storage
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 256M
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  labels:
+    app: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      volumes:
+      - name: db-storage
+        persistentVolumeClaim:
+          claimName: db-storage
+      containers:
+      - name: db
+        image: "db:latest"
+        imagePullPolicy: Never
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: db-storage
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: MYSQL_PASSWORD
+        - name: MYSQL_db
+          value: packages
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+spec:
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
+  selector:
+    app: db
