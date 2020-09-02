@@ -30,11 +30,23 @@ start:
 	@minikube start --driver=docker
 	
 deploy:
-	@echo Build and deploy images
+	@echo "Build and deploy images"
 	eval $(minikube docker-env)
-	@echo Build db
+	@echo "Build db"
 	docker build -t db:latest -f automate/docker/db/Dockerfile .
-	@echo Build nodeapp
+	@echo "Build nodeapp"
 	docker build -t nodeapp:latest -f automate/docker/nodeapp/Dockerfile .
-	@echo Build reverseproxy
+	@echo "Build reverseproxy"
 	docker build -t reverseproxy:latest -f automate/docker/reverseproxy/Dockerfile .
+	@echo "Deploy hurb Challenge-delta"
+	kubectl create -f automate/k8s/namespace.yml
+	kubectl create -f automate/k8s/db.yml
+	kubectl create -f automate/k8s/nodeapp.yml
+	kubectl create -f automate/k8s/reverseproxy.yml
+
+destroy:
+	@echo "Destroy hurb Challenge-delta"
+	kubectl delete -f automate/k8s/reverseproxy.yml
+	kubectl delete -f automate/k8s/nodeapp.yml
+	kubectl delete -f automate/k8s/db.yml	
+	kubectl delete -f automate/k8s/namespace.yml
