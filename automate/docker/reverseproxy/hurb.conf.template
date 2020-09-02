@@ -5,7 +5,7 @@ server {
     access_log /var/log/nginx/access.log;
     error_log /var/log/nginx/error.log;
 
-    location ^(/content/unique-page-name)(.*)$ {
+    location ^(.*)$ {
         return 301 /packages;
     }
 
