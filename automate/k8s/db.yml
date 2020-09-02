@@ -67,7 +67,7 @@ spec:
             secretKeyRef:
               name: db
               key: MYSQL_PASSWORD
-        - name: MYSQL_db
+        - name: MYSQL_DATABASE
           value: packages
 
 ---
