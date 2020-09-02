@@ -28,3 +28,13 @@ packages:
 start:
 	@echo Start minikube
 	@minikube start --driver=docker
+	
+deploy:
+	@echo Build and deploy images
+	eval $(minikube docker-env)
+	@echo Build db
+	docker build -t db:latest -f automate/docker/db/Dockerfile .
+	@echo Build nodeapp
+	docker build -t nodeapp:latest -f automate/docker/nodeapp/Dockerfile .
+	@echo Build reverseproxy
+	docker build -t reverseproxy:latest -f automate/docker/reverseproxy/Dockerfile .
