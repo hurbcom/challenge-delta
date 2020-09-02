@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "mysql": "^2.15.0",
-    "restify": "^7.0.0",
+    "restify": "^8.5.1",
     "restify-errors": "^6.0.0"
   }
 }
