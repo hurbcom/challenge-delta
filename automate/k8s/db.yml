@@ -73,6 +73,7 @@ kind: Service
 metadata:
   name: db
 spec:
+  type: NodePort
   ports:
   - protocol: TCP
     port: 3306
