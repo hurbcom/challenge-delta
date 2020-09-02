@@ -1,5 +1,3 @@
-CREATE DATABASE 'packages'
-
 CREATE TABLE `packages`.`offer` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Text` varchar(255) NOT NULL,
