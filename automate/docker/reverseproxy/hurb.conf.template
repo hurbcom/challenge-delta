@@ -5,11 +5,11 @@ server {
     access_log /var/log/nginx/access.log;
     error_log /var/log/nginx/error.log;
 
-    location / {
-        return 301 http://$host/packages;
+    location ^(/content/unique-page-name)(.*)$ {
+        return 301 /packages;
     }
 
-    location ~ ^/packages|/$ {
+    location /packages {
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_pass http://${API_HOST}:${API_PORT};
