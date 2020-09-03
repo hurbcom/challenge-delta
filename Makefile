@@ -62,10 +62,8 @@ deploy:
 	kubectl create -f automate/k8s/namespace.yml
 	kubectl create -f automate/k8s/db.yml
 	kubectl create -f automate/k8s/nodeapp.yml
-	echo -n "$(minikube ip) challenge-delta.info" | sudo tee -a /etc/hosts
-	echo "Wait start nodeapp pod"
-	@sleep 20
 	kubectl create -f automate/k8s/ingress.yml
+	echo -n "$(minikube ip) challenge-delta.info" | sudo tee -a /etc/hosts
 
 destroy:
 	minikube delete --all --purge

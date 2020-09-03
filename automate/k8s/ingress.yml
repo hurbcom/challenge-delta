@@ -4,7 +4,6 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/app-root: /packages
   name: challenge-delta-ingress
-  namespace: challenge-delta
 spec:
   rules:
   - host: challenge-delta.info
