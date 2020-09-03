@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/app-root: /packages
+  name: ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /packages
+        backend:
+          serviceName: nodeapp
+          servicePort: 8888

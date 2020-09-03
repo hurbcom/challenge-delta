@@ -8,6 +8,9 @@ O projeto consiste em uma API implementada com Node.js​ + MySQL​ para criaç
 Você deve:
 
 -   Criar o diagrama de toda a infraestrutura do projeto em questão ( frontend, backend e database );
+<p align="center">
+  <img src="docs/hurb.png" alt="Diagram" />
+</p>
     -   Montar toda a infraestrutura utilizando Docker:
         -   1 container rodando a aplicação em Node.js;
         -   1 container rodando um banco de dados MySQL;
