@@ -7,7 +7,6 @@ Este estudo de caso tem como objetivo testar as habilidades relevantes para esta
 O projeto consiste em uma API implementada com Node.js​ + MySQL​ para criação e consulta de pacotes, abaixo estão os detalhes necessário para inicialização, deploy e utilização.
 
 ## Diagrama da infraestrutura
--   Criar o diagrama de toda a infraestrutura do projeto em questão (Ingress, backend e database );
 <p align="center">
   <img src="docs/hurb.png" alt="Diagram" />
 </p>
@@ -57,7 +56,7 @@ O projeto consiste em uma API implementada com Node.js​ + MySQL​ para criaç
         `make deploy`  
 
 ## Utilização da API
-- Via automação:
+- Com a automação:
     - Comando para listar os pacotes:  
       `make list`  
 
@@ -67,6 +66,26 @@ O projeto consiste em uma API implementada com Node.js​ + MySQL​ para criaç
     - Comando para deletar um pacotes:
       `make delete id=<ID do pacote>`  
 
+- Com o comando curl
+    - Comando para listar os pacotes:  
+      ```
+      curl -X GET \
+	    http://challenge-delta.info/packages
+      ```
+
+    - Comando para criar um pacotes:  
+      ```
+      curl -X POST \
+      -H "Content-Type: text/plain" \
+      -d "$(package)" \
+      http://challenge-delta.info/packages
+      ```
+
+    - Comando para deletar um pacotes:
+      ```
+      curl -X DELETE \
+	    http://challenge-delta.info/packages/$(id)
+      ```  
 
 ## Dúvidas
 O comandos disponiveis na automação podem ser consultados da seguinte forma:  
