@@ -2,7 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: challenge-delta-ingress
-  namespace: challenge-delta
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /packages
 spec:
