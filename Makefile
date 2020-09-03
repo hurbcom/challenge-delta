@@ -31,12 +31,6 @@ help:
 
 packages:
 	
-	@echo install docker
-	curl -fsSL https://get.docker.com | sudo sh
-	sudo usermod -aG docker $$USER
-	newgrp docker
-
-	
 	@echo install kubectl
 	curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.19.0/bin/linux/amd64/kubectl"
 	chmod +x ./kubectl
@@ -47,6 +41,11 @@ packages:
 	curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube
 	sudo mkdir -p /usr/local/bin/
 	sudo install minikube /usr/local/bin/
+
+	@echo install docker
+	curl -fsSL https://get.docker.com | sudo sh
+	sudo usermod -aG docker $$USER
+	newgrp docker
 
 deploy:
 	
