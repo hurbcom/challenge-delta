@@ -50,7 +50,7 @@ packages:
 deploy:
 	
 	@echo Start minikube
-	minikube start --driver=docker
+	minikube start
 	minikube addons enable ingress
 	
 	@echo "Build and deploy images"
