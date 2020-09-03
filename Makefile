@@ -63,7 +63,7 @@ deploy:
 	kubectl create -f automate/k8s/db.yml
 	kubectl create -f automate/k8s/nodeapp.yml
 	kubectl create -f automate/k8s/ingress.yml
-	sudo -- sh -c "echo -n $(minikube ip) challenge-delta.info >> /etc/hosts
+	sudo -- sh -c "echo -n $(minikube ip) challenge-delta.info" >> /etc/hosts
 
 destroy:
 	minikube delete --all --purge
