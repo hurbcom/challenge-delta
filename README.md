@@ -50,10 +50,10 @@ O projeto consiste em uma API implementada com Node.js​ + MySQL​ para criaç
         `git clone <Este repository>`  
 
     -   Executar o comando para instalar dependências e iniciar o cluster:  
-        `make dependencies && make start`  
+        `make dependencies`  
 
-    -   Executar os comandos para iniciar o cluster e iniciar a aplicação  
-        `eval $(minikube docker-env) && make deploy`
+    -   Executar os comandos para iniciar o cluster e rodar a aplicação  
+        `make start && eval $(minikube docker-env) && make deploy`
 
 ## Utilização da API
 - Com a automação:
