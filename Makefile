@@ -47,15 +47,14 @@ packages:
 	sudo usermod -aG docker $$USER
 	newgrp docker
 	
-deploy:
+start:
 	@echo Start minikube
 	minikube start
 	minikube addons enable ingress
 	
+deploy:	
 	@echo "Build and deploy images"
 	@echo "Build db"
-	@eval $(minikube docker-env)
-	@eval $(shell-agent)
 	docker build -t db:latest -f automate/docker/db/Dockerfile .
 	
 	@echo "Build nodeapp"
