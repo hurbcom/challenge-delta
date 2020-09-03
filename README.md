@@ -63,7 +63,7 @@ O projeto consiste em uma API implementada com Node.js​ + MySQL​ para criaç
     - Comando para criar um pacotes:  
       `make create package=<Nome do pacote>`  
 
-    - Comando para deletar um pacotes:
+    - Comando para deletar um pacotes:  
       `make delete id=<ID do pacote>`  
 
 - Com o comando curl
