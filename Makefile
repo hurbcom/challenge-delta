@@ -2,7 +2,6 @@ default: help
 .SILENT:
 
 help:
-	
 	@echo
 	
 	@echo "Challenge-delta"
@@ -30,7 +29,6 @@ help:
 	@echo ""
 
 packages:
-	
 	@echo install kubectl
 	curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.19.0/bin/linux/amd64/kubectl"
 	chmod +x ./kubectl
@@ -68,7 +66,6 @@ deploy:
 	kubectl create -f automate/k8s/ingress.yml
 
 destroy:
-	
 	@echo "Destroy hurb Challenge-delta"
 	kubectl delete -f automate/k8s/namespace.yml
 	kubectl delete -f automate/k8s/db.yml
