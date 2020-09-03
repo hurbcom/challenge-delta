@@ -6,6 +6,12 @@ Este estudo de caso tem como objetivo testar as habilidades relevantes para esta
 
 O projeto consiste em uma API implementada com Node.js​ + MySQL​ para criação e consulta de pacotes, abaixo estão os detalhes necessário para inicialização, deploy e utilização.
 
+## Diagrama da infraestrutura
+-   Criar o diagrama de toda a infraestrutura do projeto em questão (Ingress, backend e database );
+<p align="center">
+  <img src="docs/hurb.png" alt="Diagram" />
+</p>
+
 ## Arvore dos directorios
 .
 ├── app
@@ -31,13 +37,6 @@ O projeto consiste em uma API implementada com Node.js​ + MySQL​ para criaç
 ├── Makefile
 ├── pull-request.txt
 └── README.md
-
-
-## Diagrama da infraestrutura
--   Criar o diagrama de toda a infraestrutura do projeto em questão (Ingress, backend e database );
-<p align="center">
-  <img src="docs/hurb.png" alt="Diagram" />
-</p>
 
 
 ## Requisitos
