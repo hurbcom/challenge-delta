@@ -14,29 +14,29 @@ O projeto consiste em uma API implementada com Node.js​ + MySQL​ para criaç
 
 ## Arvore dos directorios
 .
-├── app
-│   ├── db
-│   │   └── database_schema.sql
-│   └── src
-│       ├── package.json
-│       └── server.js
-├── automate
-│   ├── docker
-│   │   ├── db
-│   │   │   └── Dockerfile
-│   │   └── nodeapp
-│   │       └── Dockerfile
-│   └── k8s
-│       ├── db.yml
-│       ├── ingress.yml
-│       ├── namespace.yml
-│       └── nodeapp.yml
-├── docs
-│   ├── ca.jpg
-│   └── hurb.png
-├── Makefile
-├── pull-request.txt
-└── README.md
+├── app  
+│   ├── db  
+│   │   └── database_schema.sql  
+│   └── src  
+│       ├── package.json  
+│       └── server.js  
+├── automate  
+│   ├── docker  
+│   │   ├── db  
+│   │   │   └── Dockerfile  
+│   │   └── nodeapp  
+│   │       └── Dockerfile  
+│   └── k8s  
+│       ├── db.yml  
+│       ├── ingress.yml  
+│       ├── namespace.yml  
+│       └── nodeapp.yml  
+├── docs  
+│   ├── ca.jpg  
+│   └── hurb.png  
+├── Makefile  
+├── pull-request.txt  
+└── README.md  
 
 
 ## Requisitos
@@ -45,7 +45,8 @@ O projeto consiste em uma API implementada com Node.js​ + MySQL​ para criaç
 
 ## Inicialização do projeto
 -   Para executar o codigo é preciso rodar apenas rodar os seguintes comandos:
-    -   `git clone <Este repository>`
+    -   Clonar o repositorio: 
+        `git clone <Este repository>`
 
     -   Executar o comando para instalar dependências:
         `make package`
