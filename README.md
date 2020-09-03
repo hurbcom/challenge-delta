@@ -13,7 +13,9 @@ O projeto consiste em uma API implementada com Node.js​ + MySQL​ para criaç
 </p>
 
 ## Arvore dos directorios
-.
+
+```
+.  
 ├── app  
 │   ├── db  
 │   │   └── database_schema.sql  
@@ -37,7 +39,7 @@ O projeto consiste em uma API implementada com Node.js​ + MySQL​ para criaç
 ├── Makefile  
 ├── pull-request.txt  
 └── README.md  
-
+```
 
 ## Requisitos
 - Estar em um ambiente Linux; (De preferencia Ubuntu).
@@ -45,34 +47,31 @@ O projeto consiste em uma API implementada com Node.js​ + MySQL​ para criaç
 
 ## Inicialização do projeto
 -   Para executar o codigo é preciso rodar apenas rodar os seguintes comandos:
-    -   Clonar o repositorio: 
-        `git clone <Este repository>`
+    -   Clonar o repositorio:  
+        `git clone <Este repository>`  
 
-    -   Executar o comando para instalar dependências:
-        `make package`
+    -   Executar o comando para instalar dependências:  
+        `make package`  
 
-    -   Comando para iniciar o cluster e iniciar a aplicação
-        `make deploy`
+    -   Comando para iniciar o cluster e iniciar a aplicação  
+        `make deploy`  
 
 ## Utilização da API
 - Via automação:
-    - Comando para listar os pacotes:
-      `make list`
-    - Comando para criar um pacotes:
-      `make create package=<Nome do pacote>`
+    - Comando para listar os pacotes:  
+      `make list`  
+
+    - Comando para criar um pacotes:  
+      `make create package=<Nome do pacote>`  
+
     - Comando para deletar um pacotes:
-      `make delete id=<ID do pacote>`
-- Via curl
-    
+      `make delete id=<ID do pacote>`  
+
 
 ## Dúvidas
-O comandos disponiveis na automação podem ser consultados da seguinte forma:
+O comandos disponiveis na automação podem ser consultados da seguinte forma:  
     - `make help`
 
 Quaisquer dúvidas que você venha a ter, consulte as [_issues_](https://github.com/HurbCom/challenge-delta/issues) para ver se alguém já não a fez e caso você não ache sua resposta, abra você mesmo uma nova issue!
 
 Boa sorte e boa viagem! ;)
-
-<p align="center">
-  <img src="ca.jpg" alt="Challange accepted" />
-</p>
