@@ -7,7 +7,7 @@ metadata:
   namespace: challenge-delta
 spec:
   rules:
-  - host: approot.bar.com
+  - host: challenge-delta.info
     http:
       paths:
       - backend:
