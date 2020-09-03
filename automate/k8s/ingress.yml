@@ -1,14 +1,15 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
+  name: nginx-ingress
   annotations:
     nginx.ingress.kubernetes.io/app-root: /packages
-  name: ingress
 spec:
   rules:
-  - http:
+  - host: challenge-delta.info
+    http:
       paths:
-      - path: /packages
+      - path: /
         backend:
           serviceName: nodeapp
           servicePort: 8888
