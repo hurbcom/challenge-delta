@@ -46,16 +46,14 @@ packages:
 	curl -fsSL https://get.docker.com | sudo sh
 	sudo usermod -aG docker $$USER
 	newgrp docker
-
-deploy:
 	
 	@echo Start minikube
 	minikube start
 	minikube addons enable ingress
+
+deploy:
 	
 	@echo "Build and deploy images"
-	eval $(minikube docker-env)
-	
 	@echo "Build db"
 	docker build -t db:latest -f automate/docker/db/Dockerfile .
 	
@@ -66,9 +64,8 @@ deploy:
 	kubectl create -f automate/k8s/namespace.yml
 	kubectl create -f automate/k8s/db.yml
 	kubectl create -f automate/k8s/nodeapp.yml
-	kubectl create -f automate/k8s/ingress.yml
-	
 	@echo -n "$(minikube ip) challenge-delta.info" | sudo tee -a /etc/hosts
+	kubectl create -f automate/k8s/ingress.yml
 
 destroy:
 	

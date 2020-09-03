@@ -1,9 +1,10 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: nginx-ingress
+  name: challenge-delta-ingress
+  namespace: challenge-delta
   annotations:
-    nginx.ingress.kubernetes.io/app-root: /packages
+    nginx.ingress.kubernetes.io/rewrite-target: /packages
 spec:
   rules:
   - host: challenge-delta.info

@@ -53,7 +53,7 @@ O projeto consiste em uma API implementada com Node.js​ + MySQL​ para criaç
         `make package`  
 
     -   Comando para iniciar o cluster e iniciar a aplicação  
-        `make deploy`  
+        `eval (minikube docker-env) && make deploy`  
 
 ## Utilização da API
 - Com a automação:
