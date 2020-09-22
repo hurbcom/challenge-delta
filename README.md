@@ -27,7 +27,7 @@ Usando Go, Python3 ou NodeJS, sua tarefa, será implementar um API REST que faç
 A API terá que fazer a validação dos dados de entrada. Exemplo: SKU é único em POST e PUT.
 #
 ## Requisitos
-- Kubernetes deployment manifests para rodar, balancear, limitar requests e escalar utilizando HPA no Minikube v13.0
+- Kubernetes deployment manifests para rodar, balancear, limitar requests e escalar utilizando HPA no Minikube v1.13.0
 
 - Script para popular o banco de dados com dummy data.
 
