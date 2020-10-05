@@ -1,0 +1,136 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: api
+  labels:
+    app: api
+
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: api-limit-range
+  namespace: api
+spec:
+ limits:
+ - default:
+     cpu: 1
+     memory: 1024Mi
+   defaultRequest:
+     cpu: 0.5
+     memory: 256Mi
+   type: Container
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: api-data
+  namespace: api
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+  namespace: api
+  labels:
+    app: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: debian
+          ports:
+            - containerPort: 5000
+          resources: 
+            limits:
+               memory: 768Mi
+               cpu: 1
+            requests:
+               memory: 256Mi
+               cpu: 0.5 
+          volumeMounts:
+            - mountPath: "/var/lib/api"
+              subPath: "api"
+              name: api-data
+          env:
+            - name: api_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: api-root-password
+            - name: api_USER
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: api-user
+            - name: api_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: api-password
+            - name: api_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: api-database
+      volumes:
+        - name: api-data
+          persistentVolumeClaim:
+            claimName: api-data
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+  namespace: api
+spec:
+  selector:
+    app: api
+  ports:
+  - protocol: TCP
+    port: 443
+    targetPort: 443
+
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: api-hpa
+  namespace: api
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: api-deployment
+  minReplicas: 1
+  maxReplicas: 20
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 75
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: AverageValue
+        averageValue: 128Mi
