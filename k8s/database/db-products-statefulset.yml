@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: db-products-statefulset
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: db-products
+      labels:
+        app: db-products
+    spec:
+      containers:
+        - name: db-products-container
+          image: mysql:5.7.32
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - configMapRef:
+                name: db-configmap
+            - secretRef:
+               name: db-secret            
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: db-products-pvc
+  selector:
+    matchLabels:
+      app: db-products
+  serviceName: db-products-svc

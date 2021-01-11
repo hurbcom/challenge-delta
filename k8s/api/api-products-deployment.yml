@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-products-deployment
+spec:
+  template:
+    metadata:
+      name: api-products
+      labels:
+        app: api-products
+    spec:
+      containers:
+        - name: api-products-container
+          image: rconceicaobr/nodejs-api:v1
+          ports:
+            - containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /api/products
+              port: 3000
+            periodSeconds: 1
+            failureThreshold: 3
+            initialDelaySeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /api/products
+              port: 3000
+            periodSeconds: 1
+            failureThreshold: 5
+            initialDelaySeconds: 3
+          resources: 
+            requests:
+              cpu: "20m"
+              memory: "128M"
+            limits:
+              cpu: "40m"
+              memory: "256M"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-products
