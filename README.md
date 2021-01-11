@@ -56,7 +56,9 @@ Abra o Postman (ou outro recurso) para realizar as ações:
 ## Executando o teste de Stress :fire:
 
 1 - Acesse o diretório "stress-test", localizado na raiz do repositório.
+
 2 - Altere nas variáveis o IP e porta de acesso a API.
+
 3 - Execute:
 ```bash
 $ ./stress.sh
