@@ -55,13 +55,13 @@ Abra o Postman (ou outro recurso) para realizar as ações:
 
 ## Executando o teste de Stress :fire:
 
-Acesse o diretório "stress-test", localizado na raiz do repositório;
-Altere nas variáveis o IP e porta de acesso a API;
-Execute:
+1 - Acesse o diretório "stress-test", localizado na raiz do repositório.
+2 - Altere nas variáveis o IP e porta de acesso a API.
+3 - Execute:
 ```bash
 $ ./stress.sh
 ```
-Para visualizar quantas réplicas estão em execução:
+4- Para visualizar quantas réplicas estão em execução:
 ```bash
 $ kubectl get hpa --watch
 ```
