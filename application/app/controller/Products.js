@@ -69,7 +69,12 @@ class Products{
         return this.recursiveValidate(prod, allProps);
     }
 
-    showProducts(params = {}){
+    async showProducts(params = {}){
+        try{
+            await this.productDAO.test();
+        }catch(e){
+            console.log("CONTROLLER ERROR", e.message);
+        }
         const options = [];
         options.push({ standard: { start: parseInt(params.start) || 0, num: parseInt(params.num) || 0 } });
 

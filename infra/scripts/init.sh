@@ -31,7 +31,7 @@ function deleteAll {
     deleteNginx || true
     deleteApp || true
     deleteMysql || true
-    minikube stop || true
+    # minikube stop || true
 }
 
 function deployAll {
@@ -58,12 +58,14 @@ function portForwardApp {
 }
 
 function main {
-    echo "==================== Verify Docker... ===================="
-    verifyDocker
-    enableDockerWithoutSudo # COMMENT IF YOUR USER IS ROOT
+    # echo "==================== Verify Docker... ===================="
+    # verifyDocker
+    # enableDockerWithoutSudo # COMMENT THIS COMMAND IF YOUR USER IS ROOT
 
-    echo "==================== Verify Minikube... ===================="
-    verifyMinikube
+    # echo "==================== Verify Minikube... ===================="
+    # verifyMinikube
+
+    deleteAll
 
     echo "==================== Building app... ===================="
     buildApp
@@ -73,5 +75,4 @@ function main {
     portForwardApp
 }
 
-deleteAll
-# main
+main

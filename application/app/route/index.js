@@ -7,10 +7,10 @@ const internalError = (er, res) => {
 }
 
 module.exports = server => {
-    server.get('/api/products', (req, res) => {
+    server.get('/api/products', async (req, res) => {
         try{
             const product = new ProductBLL(basicOptionsToBLL);
-            let productsList = product.showProducts(req.query);
+            let productsList = await product.showProducts(req.query);
             res.status(productsList.status).json(productsList.response);
         }catch(er){
             internalError(er, res);
