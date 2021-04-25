@@ -3,3 +3,7 @@ bkp.*
 .env
 *.log
 *.lock
+*.deb
+*.deb.1
+dockerconfig.json
+.myTips
