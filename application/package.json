@@ -6,7 +6,8 @@
   "author": "CRF Luiz <lcmartinscjr@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "start": "node index.js"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
