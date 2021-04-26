@@ -17,7 +17,7 @@ data:
     `sku` VARCHAR(32) NOT NULL,
     `description` VARCHAR(1024) NULL,
     `price` DECIMAL(12,2)NOT NULL DEFAULT 0.00,
-    `created` DATETIME NOT NULL,
+    `created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `last_updated` DATETIME NULL,
     PRIMARY KEY (`product_id`),
     UNIQUE INDEX (`sku` ASC),

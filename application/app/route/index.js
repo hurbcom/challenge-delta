@@ -27,10 +27,10 @@ module.exports = server => {
         }
     });
     
-    server.post('/api/products', (req, res) => {
+    server.post('/api/products', async (req, res) => {
         try{
             const product = new ProductBLL(basicOptionsToBLL);
-            let addProduct = product.addProduct(req.body);
+            let addProduct = await product.addProduct(req.body);
             res.status(addProduct.status).json(addProduct.response);
         }catch(er){
             internalError(er, res);

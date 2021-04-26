@@ -70,20 +70,18 @@ class Products{
     }
 
     async showProducts(params = {}){
-        try{
-            await this.productDAO.test();
-        }catch(e){
-            console.log("CONTROLLER ERROR", e.message);
-        }
         const options = [];
-        options.push({ standard: { start: parseInt(params.start) || 0, num: parseInt(params.num) || 0 } });
+        options.push({ standard: { start: parseInt(params.start) || 0, num: parseInt(params.num) || 10 } });
 
         params.sku ? options.push({ sku: params.sku }) : null;
         params.barcode ? options.push({ barcode: params.barcode }) : null;
         params.fields ? options.push({ fields: params.fields }) : null;
-
-        let productList = this.productDAO.getList(options);
-        return this.formatReturn({ totalCount: productList.length, items: productList }, 200);
+        try{
+            let productList = await this.productDAO.getList(options);
+            return this.formatReturn({ totalCount: productList.length, items: productList }, 200);
+        }catch(e){
+            console.log("ERROR IN BLL PRODUCT CLASS\n", e.message);
+        }
     }
 
     showById(id, params = {}){
@@ -92,12 +90,18 @@ class Products{
         return this.formatReturn(product, 200);
     }
 
-    addProduct(obj){
+    async addProduct(obj){
         let validate = this.validateInputProduct(obj);
         if(!validate.ok) return this.formatReturn(validate.error, 400);
+        obj.price = parseFloat(obj.price);
 
-        const id = this.productDAO.saveProduct(obj);
-        return Number.isInteger(id) ? this.formatReturn({ id }, 200) : this.formatReturn({ errorText: "Server error when did save your product. Try again or later." }, 500);
+        try {
+            const id = await this.productDAO.saveProduct(obj);
+            return Number.isInteger(id) ? this.formatReturn({ id }, 200) : this.formatReturn({ errorText: "Server error when did save your product. Try again or later." }, 500);
+        }catch(e){
+            console.log("ERROR IN BLL PRODUCT CLASS\n", e.message);
+            return this.formatReturn({ errorText: e.message }, 500);
+        }
     }
 
     updateProduct(id, obj){
