@@ -17,6 +17,7 @@ function deleteMysql {
 function createApp {
     minikube kubectl apply -- -f ../k8s/app.deployment.yml
     minikube kubectl apply -- -f ../k8s/app.service.yml
+    minikube kubectl apply -- -f ../k8s/app.hpa.yml
 }
 
 function deleteApp {
