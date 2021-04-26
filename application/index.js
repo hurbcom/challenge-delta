@@ -1,8 +1,5 @@
+require('dotenv').config();
 const server = require('./config/server.js');
-const { API_PORT } = require('./config/consts.js');
+const { APPLICATION_PORT } = process.env;
 
-const routes = require('./app/route');
-routes(server);
-
-server.use((req, res) => res.status(404).json({ errorText: "Page not found." }));
-server.listen(API_PORT, er => console.log(er || `Server on port ${API_PORT}`))
+server.listen(APPLICATION_PORT, er => console.log(er || `Server on port ${APPLICATION_PORT}`));

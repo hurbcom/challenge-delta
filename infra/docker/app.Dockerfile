@@ -6,6 +6,7 @@ WORKDIR /app
 ADD app ./app
 ADD config ./config
 COPY index.js package.json ./
+COPY dev.env .env
 
 RUN yarn --version && yarn install
 EXPOSE 3000
