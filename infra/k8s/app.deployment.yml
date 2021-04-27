@@ -25,10 +25,7 @@ spec:
         ports:
         - containerPort: 3000
           name: webinterface
-        # resources:
-        #   requests:
-        #     memory: "300Mi"
-        #     cpu: "500m"
-        #   limits:
-        #     memory: "500Mi"
-        #     cpu: "1000m"
+        resources:
+          requests:
+            memory: "300Mi"
+            cpu: "500m"

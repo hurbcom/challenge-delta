@@ -21,6 +21,7 @@ function createApp {
 }
 
 function deleteApp {
+    minikube kubectl delete -- -f ../k8s/app.hpa.yml
     minikube kubectl delete -- -f ../k8s/app.service.yml
     minikube kubectl delete -- -f ../k8s/app.deployment.yml
 }

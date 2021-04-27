@@ -56,4 +56,13 @@ module.exports = server => {
             internalError(er, res);
         }
     });
+
+    server.get('/crash', (req, res) => {    // USE THIS ROUTE IF IT IS THE ONLY OPTION TO STRESS THE POD 
+        let i = 0;
+        while(true){
+            i++;
+            console.log(i);
+        }
+        next();
+    });
 }

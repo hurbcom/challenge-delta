@@ -18,6 +18,10 @@ spec:
     spec:
       containers:
       - image: mysql:5.7
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "400m"
         args:
           - "--ignore-db-dir=lost+found"
         name: mysql
