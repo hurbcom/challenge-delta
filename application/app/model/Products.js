@@ -1,3 +1,4 @@
+const { conn } = require('../../config/db');
 const db = require('../../config/db');
 
 class Products{
@@ -36,6 +37,7 @@ class Products{
         console.log(sql);
         try{
             const [rows, fields] = await conn.execute(sql);
+            conn.end();
             return rows;
             
         }catch(e){
@@ -49,24 +51,24 @@ class Products{
     }
 
     async saveProduct(obj){
-        return 0;
-        const post_product = [obj.title, obj.sku, obj.description, parseFloat(obj.price)];
-        let attr_values = (prodId) => obj.attributes.map(attr => `(${prodId}, '${attr.name}', '${attr.value}')`);
+        const dataQuery1 = [obj.title, obj.sku, obj.description, parseFloat(obj.price)];
         try{
             const conn = await this.createConn();
-            console.log("INSERT INTO product (title, sku, description, price) values(?, ?, ?, ?)")
-            let [rows1, fields1] = await conn.execute('INSERT INTO product (title, sku, description, price) values(?, ?, ?, ?)', post_product);
-            console.log("INSERT INTO product_barcode (product_id, barcode) values(?, ?)")
-            let [rows2, fields2] = await conn.execute('INSERT INTO product_barcode (product_id, barcode) values(?, ?)', [rows1.insertId, obj.barcode]);
-            console.log(`INSERT INTO product_attribute (product_id, name, value) values${attr_values(rows1.insertId).join(',')}`)
-            let [rows3, fields3] = await conn.execute(`INSERT INTO product_attribute (product_id, name, value) values${attr_values(rows1.insertId).join(',')}`);
+            await conn.beginTransaction();
+            const [firstQuery] = await conn.query('INSERT INTO product (title, sku, description, price) values(?, ?, ?, ?)', dataQuery1);
+            const dataQuery2 = [obj.barcodes.map(code => [firstQuery.insertId, code])];
+            await conn.query('INSERT INTO product_barcode (product_id, barcode) values ?', dataQuery2);
+            
+            const dataQuery3 = [obj.attributes.map(attr => [firstQuery.insertId, attr.name, attr.value])];
+            await conn.query('INSERT INTO product_attribute (product_id, name, value) values ?', dataQuery3);
+            
+            await conn.commit();
+            await conn.end();
 
-            // const [rows, fields] = await conn.execute('INSERT INTO product (title, sku, description, price) values(?, ?, ?)', post_product);
-            return rows.insertId;
+            return firstQuery.insertId;
             
         }catch(e){
             console.log("ERROR IN DAO PRODUCT CLASS\n", e.message);
-            await conn.rollback();
             return e.message;
         }
     }

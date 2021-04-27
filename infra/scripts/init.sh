@@ -7,6 +7,7 @@ source ./builds.sh
 function verifyMinikube {
     minikube start --driver=docker
     if [ $? -eq 0 ]; then
+        minikube addons enable metrics-server 
         echo "Minikube already installed"
     else
         installMinikube || exit 0
@@ -67,8 +68,8 @@ function main {
 
     deleteAll
 
-    echo "==================== Building app... ===================="
-    buildApp
+    # echo "==================== Building app... ===================="
+    # buildApp
 
     deployAll
 
