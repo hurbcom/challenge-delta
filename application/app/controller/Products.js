@@ -70,18 +70,30 @@ class Products{
     }
 
     async showProducts(params = {}){
+        const standards = { start: parseInt(params.start) || 0, num: parseInt(params.num) || 10 };
         const options = [];
-        options.push({ standard: { start: parseInt(params.start) || 0, num: parseInt(params.num) || 10 } });
-
         params.sku ? options.push({ sku: params.sku }) : null;
         params.barcode ? options.push({ barcode: params.barcode }) : null;
-        params.fields ? options.push({ fields: params.fields }) : null;
+        params.fields ? options.push({ fields: params.fields.split(',') || [params.fields] }) : null;
         try{
-            let productList = await this.productDAO.getList(options);
+            let productList = await this.productDAO.getList(standards, options);
             return this.formatReturn({ totalCount: productList.length, items: productList }, 200);
         }catch(e){
             console.log("ERROR IN BLL PRODUCT CLASS\n", e.message);
         }
+
+        // const options = [];
+        // options.push({ standard: { start: parseInt(params.start) || 0, num: parseInt(params.num) || 10 } });
+
+        // params.sku ? options.push({ sku: params.sku }) : null;
+        // params.barcode ? options.push({ barcode: params.barcode }) : null;
+        // params.fields ? options.push({ fields: params.fields }) : null;
+        // try{
+        //     let productList = await this.productDAO.getList(options);
+        //     return this.formatReturn({ totalCount: productList.length, items: productList }, 200);
+        // }catch(e){
+        //     console.log("ERROR IN BLL PRODUCT CLASS\n", e.message);
+        // }
     }
 
     showById(id, params = {}){

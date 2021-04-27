@@ -11,38 +11,47 @@ class Products{
         }
     }
      
-    async getList(options){
-        console.log(options);
+    async getList(standards = {}, options = []){
+        console.log(standards, options);
         const conn = await this.createConn();
-        let sql_where = [], sql_select = [], sql_limit = [];
-        options.map(data => {
-            Object.keys(data).forEach(key => {
-                if(key == 'fields'){
-                    let field = data[key].split(',');
-                    sql_select = field.map(f => {
-                        console.log('Press F to respect', f);
-                        return f == 'productId' ? 'product.product_id' : (f == 'barcode' ? 'product_barcode.barcode' : 'product.'+f);
-                    });
-                }else if(key == 'standard'){
-                    sql_limit.push(`LIMIT ${data[key].num}`);
-                    sql_where.push(`product.product_id > ${data[key].start}`);
-                }else{
-                    sql_where.push(`${key == 'productId' ? 'product.product_id' : 
-                        (key == 'barcode' ? 'product_barcode.barcode' : 
-                            (key == 'price' ? 'product_attribute.price' : 'product.'+key))}='${data[key]}'`);
-                }
-            });
+        const sql_select = options.map(col => { if(col.fields) return col.fields }) || [];
+        const sql_where = options.map(col => {
+            if(col !== fields){
+                console.log(Object.keys(col)) // PEGAR KEY E VALUE
+            }
         });
-        const sql = `SELECT ${sql_select.length > 0 ? sql_select.join(', '):'*'} FROM product INNER JOIN product_barcode ON product.product_id=product_barcode.product_id INNER JOIN product_attribute ON product_barcode.product_id=product_attribute.product_id ${sql_where.length > 0 ? 'WHERE '+sql_where.join(' AND ') : ''} ${sql_limit[0]}`;
-        console.log(sql);
-        try{
-            const [rows, fields] = await conn.execute(sql);
-            conn.end();
-            return rows;
+        // , sql_limit = [];
+
+        // const conn = await this.createConn();
+        // let sql_where = [], sql_select = [], sql_limit = [];
+        // options.map(data => {
+        //     Object.keys(data).forEach(key => {
+        //         if(key == 'fields'){
+        //             let field = data[key].split(',');
+        //             sql_select = field.map(f => {
+        //                 console.log('Press F to respect', f);
+        //                 return f == 'productId' ? 'product.product_id' : (f == 'barcode' ? 'product_barcode.barcode' : 'product.'+f);
+        //             });
+        //         }else if(key == 'standard'){
+        //             sql_limit.push(`LIMIT ${data[key].num}`);
+        //             sql_where.push(`product.product_id > ${data[key].start}`);
+        //         }else{
+        //             sql_where.push(`${key == 'productId' ? 'product.product_id' : 
+        //                 (key == 'barcode' ? 'product_barcode.barcode' : 
+        //                     (key == 'price' ? 'product_attribute.price' : 'product.'+key))}='${data[key]}'`);
+        //         }
+        //     });
+        // });
+        // const sql = `SELECT ${sql_select.length > 0 ? sql_select.join(', '):'*'} FROM product INNER JOIN product_barcode ON product.product_id=product_barcode.product_id INNER JOIN product_attribute ON product_barcode.product_id=product_attribute.product_id ${sql_where.length > 0 ? 'WHERE '+sql_where.join(' AND ') : ''} ${sql_limit[0]}`;
+        // console.log(sql);
+        // try{
+        //     const [rows, fields] = await conn.execute(sql);
+        //     conn.end();
+        //     return rows;
             
-        }catch(e){
-            console.log("ERROR IN DAO PRODUCT CLASS\n", e.message);
-        }
+        // }catch(e){
+        //     console.log("ERROR IN DAO PRODUCT CLASS\n", e.message);
+        // }
     }
 
     getById(id, fields){
