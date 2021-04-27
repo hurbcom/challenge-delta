@@ -95,9 +95,9 @@ class Products{
         if(!validate.ok) return this.formatReturn(validate.error, 400);
         obj.price = parseFloat(obj.price);
 
+        const id = await this.productDAO.saveProduct(obj);
         try {
-            const id = await this.productDAO.saveProduct(obj);
-            return Number.isInteger(id) ? this.formatReturn({ id }, 200) : this.formatReturn({ errorText: "Server error when did save your product. Try again or later." }, 500);
+            return Number.isInteger(id) ? this.formatReturn({ id }, 200) : this.formatReturn({ errorText: "Server error when did save your product, try again or later. SQL Error: "+id }, 500);
         }catch(e){
             console.log("ERROR IN BLL PRODUCT CLASS\n", e.message);
             return this.formatReturn({ errorText: e.message }, 500);

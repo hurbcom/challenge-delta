@@ -68,8 +68,8 @@ function main {
 
     deleteAll
 
-    echo "==================== Building app... ===================="
-    buildApp
+    # echo "==================== Building app... ===================="
+    # buildApp
 
     deployAll
 
