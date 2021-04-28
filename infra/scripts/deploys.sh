@@ -1,3 +1,5 @@
+# THIS SCRIPT HAS THE NEEDED FUNCTIONS TO DEPLOY K8S RESOURCES
+ 
 function createMysql {
     minikube kubectl apply -- -f ../k8s/mysql.configmap.yml
     minikube kubectl create secret generic mysql-info -- --from-literal=root-password="${1:-"h0t3lhurb4n0"}" --from-literal=user="${2:-"hurb"}" --from-literal=password="${3:-"hurbP4SS"}"
@@ -27,7 +29,7 @@ function deleteApp {
 }
 
 function createNginx {
-    minikube kubectl apply -- -f ../k8s/nginx.configmap.3.yml
+    minikube kubectl apply -- -f ../k8s/nginx.configmap.yml
     minikube kubectl apply -- -f ../k8s/nginx.deployment.yml
     minikube kubectl apply -- -f ../k8s/nginx.service.yml
 }
@@ -35,5 +37,5 @@ function createNginx {
 function deleteNginx {
     minikube kubectl delete -- -f ../k8s/nginx.service.yml
     minikube kubectl delete -- -f ../k8s/nginx.deployment.yml
-    minikube kubectl delete -- -f ../k8s/nginx.configmap.3.yml
+    minikube kubectl delete -- -f ../k8s/nginx.configmap.yml
 }

@@ -9,7 +9,6 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: deploy-nodeapp
-  # targetCPUUtilizationPercentage: 50
   metrics:
   - type: Resource
     resource:
@@ -19,16 +18,3 @@ spec:
     resource:
       name: memory
       targetAverageUtilization: 70
-
-  # - type: Resource
-  #   resource:
-  #     name: cpu
-  #     target:
-  #       type: Utilization
-  #       averageUtilization: 50
-  # - type: Resource
-  #   resource:
-  #     name: memory
-  #     target:
-  #       type: Utilization
-  #       averageUtilization: 50

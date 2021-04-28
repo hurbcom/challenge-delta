@@ -4,18 +4,15 @@ metadata:
   name: deploy-nginx
   labels:
     app: nginx
-    # type: deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: nginx
-      # type: pod
   template:
     metadata:
       labels:
         app: nginx
-        # type: pod
     spec:
       containers:
       - name: nginx

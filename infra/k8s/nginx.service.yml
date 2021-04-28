@@ -4,12 +4,9 @@ metadata:
   name: service-nginx
   labels:
     service: nginx
-    # app: nginx
-    # type: service
 spec:
   type: LoadBalancer
   ports:
   - port: 80
   selector:
     app: nginx
-    # type: deployment
