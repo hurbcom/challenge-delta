@@ -59,17 +59,17 @@ function portForwardApp {
 }
 
 function main {
-    # echo "==================== Verify Docker... ===================="
-    # verifyDocker
-    # enableDockerWithoutSudo # COMMENT THIS COMMAND IF YOUR USER IS ROOT
+    echo "==================== Verify Docker... ===================="
+    verifyDocker
+    enableDockerWithoutSudo # COMMENT THIS COMMAND IF YOUR USER IS ROOT
 
-    # echo "==================== Verify Minikube... ===================="
-    # verifyMinikube
+    echo "==================== Verify Minikube... ===================="
+    verifyMinikube
 
     deleteAll
 
-    # echo "==================== Building app... ===================="
-    # buildApp
+    echo "==================== Building app... ===================="
+    buildApp
 
     deployAll
 

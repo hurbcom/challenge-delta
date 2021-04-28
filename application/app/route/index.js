@@ -17,10 +17,10 @@ module.exports = server => {
         }
     });
     
-    server.get('/api/products/:productId', (req, res) => {
+    server.get('/api/products/:productId', async (req, res) => {
         try{
             const product = new ProductBLL(basicOptionsToBLL);
-            let productById = product.showById(req.params.productId, req.query);
+            let productById = await product.showById(req.params.productId, req.query);
             res.status(productById.status).json(productById.response);
         }catch(er){
             internalError(er, res);
@@ -37,20 +37,20 @@ module.exports = server => {
         }
     });
     
-    server.put('/api/products/:productId', (req, res) => {
+    server.put('/api/products/:productId', async (req, res) => {
         try{
             const product = new ProductBLL(basicOptionsToBLL);
-            let updProduct = product.updateProduct(req.params.productId, req.body);
+            let updProduct = await product.updateProduct(req.params.productId, req.body);
             res.status(updProduct.status).json(updProduct.response);
         }catch(er){
             internalError(er, res);
         }
     });
     
-    server.delete('/api/products/:productId', (req, res) => {
+    server.delete('/api/products/:productId', async (req, res) => {
         try{
             const product = new ProductBLL(basicOptionsToBLL);
-            let delProduct = product.deleteProduct(req.params.productId);
+            let delProduct = await product.deleteProduct(req.params.productId);
             res.status(delProduct.status).json(delProduct.response);
         }catch(er){
             internalError(er, res);

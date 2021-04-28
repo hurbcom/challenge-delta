@@ -11,4 +11,4 @@ COPY dev.env .env
 RUN yarn --version && yarn install
 EXPOSE 3000
 
-CMD ["yarn", "start"]
+CMD ["yarn", "dev"]
