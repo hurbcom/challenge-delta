@@ -1,22 +1,18 @@
-# apiVersion: extensions/v1beta1
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: deploy-nodeapp
   labels:
     app: nodeapp
-    # type: deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: nodeapp
-      # type: pod
   template:
     metadata:
       labels:
         app: nodeapp
-        # type: pod
     spec:
       containers:
       - image: crfluiz/challenge-delta:latest

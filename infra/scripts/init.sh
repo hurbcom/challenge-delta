@@ -4,16 +4,7 @@ source ./toolsInstaller.sh
 source ./deploys.sh
 source ./builds.sh
 
-function verifyMinikube {
-    minikube start --driver=docker
-    if [ $? -eq 0 ]; then
-        minikube addons enable metrics-server 
-        echo "Minikube already installed"
-    else
-        installMinikube || exit 0
-    fi
-}
-
+# VERIFY FUNCTIONS: VERIFY IF THE APPLICATION (DOCKER OR MINIKUBE) EXISTS. IF NOT, INSTALL.
 function verifyDocker {
     docker --version 1> /dev/null
     if [ $? -eq 0 ]; then
@@ -28,16 +19,19 @@ function enableDockerWithoutSudo {
     sudo chown ${USER}:${MY_GROUP} /var/run/docker.sock 1> /dev/null
 }
 
-function deleteAll {
-    deleteNginx || true
-    deleteApp || true
-    deleteMysql || true
-    # minikube stop || true
+function verifyMinikube {
+    minikube start --driver=docker
+    if [ $? -eq 0 ]; then
+        minikube addons enable metrics-server  # NEEDED TO HPA GET CPU METRICS
+        echo "Minikube already installed"
+    else
+        installMinikube || exit 0
+    fi
 }
 
 function deployAll {
     echo "==================== Deploying MySQL... ===================="
-    createMysql
+    createMysql # IF YOU WANT CHANGE THE USER/PASS FOR DATABASE, SEND AS PARAMETER. EXAMPLE: createMysql "R00Tpassword" "appUser" "appP4SSW0RD" 
 
     echo "==================== Deploying app... ===================="
     createApp
@@ -65,15 +59,17 @@ function main {
 
     echo "==================== Verify Minikube... ===================="
     verifyMinikube
-
-    deleteAll
+    
+    deleteNginx
+    deleteApp
+    deleteMysql
 
     echo "==================== Building app... ===================="
     buildApp
 
     deployAll
 
-    portForwardApp
+    portForwardApp  # UNCOMMENT THIS LINE IF YOU WANT FORWARD THE NGINX PORT LISTENING TO YOUR LOCAL :80
 }
 
 main
