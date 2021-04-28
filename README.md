@@ -47,11 +47,13 @@ Nginx:
 
 ### 3.1 Todo o processo:
 Primeiramente, caminhe até o diretório dos scripts *infra/scripts*.  
-Dê permissão de execução para o arquivo **init.sh** executando o comando:
+Dê permissão de execução para o arquivo **init.sh** e execute-o. Basta rodar o comando:
 ```sh
 chmod +x init.sh
-# OR
+# OU
 sudo chmod +x init.sh
+
+./init.sh
 ```
 O script irá seguir os seguintes passos:
 1. Verificar se o docker está instalado utilizando o comando *docker --version* e caso não esteja, o script tentará instalar o docker através dos comandos no script *toolsInstaller.sh*. O script também torna o seu usuário e grupo em owner do .sock do docker (para que possam ser executados comandos sem a utilização do *sudo*)
@@ -78,4 +80,4 @@ Se esse fosse um projeto para ser executado em larga escala, eu iria pensar em u
 A criação das imagens poderiam ser feitas através do próprio github actions, onde setaríamos para que haja um build e um push caso uma das branchs principais (branchs para prod, stg e dev) recebesse um push ou uma PR. Deveria haver também algum tipo de trigger para fazer o redeploy da aplicação com a nova imagem.
 
 ## 5. Falhas
-Não fiz os Testes Unitários. Não consegui aproveitar tanto o meu tempo quanto imaginei que poderia, então fui focando nas partes que domino mais pois eu iria perder um bom tempo pesquisando mais sobre testes e também suas boas práticas. Entrego o que consegui finalizar e aguardo ansisamente pelo feedback.
+Não fiz os Testes Unitários. Não consegui aproveitar tanto o meu tempo quanto imaginei que poderia. Fui focando nas partes que domino mais, pois eu iria perder um bom tempo pesquisando mais sobre testes e também suas boas práticas. Entrego o que consegui finalizar e aguardo ansiosamente pelo feedback.
