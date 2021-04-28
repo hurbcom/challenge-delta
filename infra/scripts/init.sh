@@ -22,7 +22,7 @@ function enableDockerWithoutSudo {
 function verifyMinikube {
     minikube start --driver=docker
     if [ $? -eq 0 ]; then
-        minikube addons enable metrics-server 
+        minikube addons enable metrics-server  # NEEDED TO HPA GET CPU METRICS
         echo "Minikube already installed"
     else
         installMinikube || exit 0
@@ -59,13 +59,17 @@ function main {
 
     echo "==================== Verify Minikube... ===================="
     verifyMinikube
+    
+    deleteNginx
+    deleteApp
+    deleteMysql
 
     echo "==================== Building app... ===================="
     buildApp
 
     deployAll
 
-    # portForwardApp  # UNCOMMENT THIS LINE IF YOU WANT FORWARD THE NGINX PORT LISTENING TO YOUR LOCAL :80
+    portForwardApp  # UNCOMMENT THIS LINE IF YOU WANT FORWARD THE NGINX PORT LISTENING TO YOUR LOCAL :80
 }
 
 main
