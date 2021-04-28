@@ -10,53 +10,62 @@ class Products{
             console.log('CREATE CONNECTION ERROR IN DAO PRODUCT CLASS\n', e.message);
         }
     }
+
+    formatToJoin(colName){
+        if(colName == 'barcode') return 'product_barcode.barcode';
+        if(colName == 'name' || colName == 'value') return `product_attribute.${colName}`;
+        if(colName == 'productId') return 'product.product_id';
+        return `product.${colName}`;
+    }
      
     async getList(standards = {}, options = []){
-        console.log(standards, options);
         const conn = await this.createConn();
-        const sql_select = options.map(col => { if(col.fields) return col.fields }) || [];
-        const sql_where = options.map(col => {
-            if(col !== fields){
-                console.log(Object.keys(col)) // PEGAR KEY E VALUE
-            }
-        });
-        // , sql_limit = [];
+        const [ sql_select ] = options
+            .filter(col => col.fields ? true : false)
+            .map(col => (col['fields'] == 'productId') ? 'product_id' : col['fields'] )
+            .map(col => col.map(name => this.formatToJoin(name)));
 
-        // const conn = await this.createConn();
-        // let sql_where = [], sql_select = [], sql_limit = [];
-        // options.map(data => {
-        //     Object.keys(data).forEach(key => {
-        //         if(key == 'fields'){
-        //             let field = data[key].split(',');
-        //             sql_select = field.map(f => {
-        //                 console.log('Press F to respect', f);
-        //                 return f == 'productId' ? 'product.product_id' : (f == 'barcode' ? 'product_barcode.barcode' : 'product.'+f);
-        //             });
-        //         }else if(key == 'standard'){
-        //             sql_limit.push(`LIMIT ${data[key].num}`);
-        //             sql_where.push(`product.product_id > ${data[key].start}`);
-        //         }else{
-        //             sql_where.push(`${key == 'productId' ? 'product.product_id' : 
-        //                 (key == 'barcode' ? 'product_barcode.barcode' : 
-        //                     (key == 'price' ? 'product_attribute.price' : 'product.'+key))}='${data[key]}'`);
-        //         }
-        //     });
-        // });
-        // const sql = `SELECT ${sql_select.length > 0 ? sql_select.join(', '):'*'} FROM product INNER JOIN product_barcode ON product.product_id=product_barcode.product_id INNER JOIN product_attribute ON product_barcode.product_id=product_attribute.product_id ${sql_where.length > 0 ? 'WHERE '+sql_where.join(' AND ') : ''} ${sql_limit[0]}`;
-        // console.log(sql);
-        // try{
-        //     const [rows, fields] = await conn.execute(sql);
-        //     conn.end();
-        //     return rows;
-            
-        // }catch(e){
-        //     console.log("ERROR IN DAO PRODUCT CLASS\n", e.message);
-        // }
+        const sql_where = options
+            .filter(col => !col.fields ? true : false )
+            .map(col => col['productId'] ? { product_id: col.productId } : col);
+        let sql_query = `SELECT ${sql_select && sql_select.length > 0 ? sql_select.join(', ') : '*'} FROM product `;
+        sql_query += `INNER JOIN product_barcode ON product.product_id=product_barcode.product_id ${sql_where.length > 0 ? 'WHERE ':''}`;
+         
+        sql_where.forEach((obj, idx) => {
+            let prop = Object.keys(obj)[0];
+            let col = this.formatToJoin(prop);
+            sql_query += `${col}='${obj[prop]}' AND `;
+            if(idx == sql_where.length - 1) sql_query = sql_query.substr(0, sql_query.length - 4);
+        });
+        
+        sql_query += `LIMIT ${standards.num}`;
+        try {
+            const [ PRODS ] = await conn.query(sql_query);
+            return PRODS;
+        }catch(e){
+            console.log(e.message);
+            throw e;
+        }
     }
 
-    getById(id, fields){
-        console.log(id, fields);
-        return [];
+    async getById(id, fields){
+        const conn = await this.createConn();
+        const newFields = fields.map(field => (field == "productId") ? "product_id" : field);
+        const attr = newFields.includes("attributes");
+        if(attr) newFields.splice(newFields.indexOf("attributes"));
+        try{
+            await conn.beginTransaction();
+            const [ dataProd ] = await conn.query(`SELECT ${newFields && newFields.length > 0 ? newFields.join(',') : '*'} FROM product WHERE product_id=?`, [id]);
+            let dataAttr = [];
+            if(newFields.length == 0 || attr) [ dataAttr ] = await conn.query('SELECT name, value FROM product_attribute WHERE product_id=?', [id]);
+            await conn.commit();
+            await conn.end();
+            const response = (newFields.length == 0 || attr) ? { ...dataProd[0], attributes: dataAttr } : { ...dataProd[0] };
+            return response;
+        }catch(e){
+            console.log(e.message);
+            return e;
+        }
     }
 
     async saveProduct(obj){
@@ -82,11 +91,65 @@ class Products{
         }
     }
 
-    updateProduct(id, obj){
-        return true;
+    async updateProduct(id, obj){
+        const conn = await this.createConn();
+        
+        const col = Object.keys(obj);
+        let attr = null, code = null;
+        if(col.includes("attributes")){
+            attr = obj.attributes;
+            col.splice(col.indexOf("attributes"));
+        }
+        if(col.includes("barcodes")){
+            code = obj.barcodes;
+            col.splice(col.indexOf("barcodes"));
+        }
+
+        const data = col.map(colName => obj[colName]);
+        data.push(parseInt(id));
+
+        try{
+            await conn.beginTransaction();
+            const sql = `UPDATE product SET ${col.join('=?, ')}=? WHERE product_id=?`;
+            const sql_code = code ? 'UPDATE product_barcode SET barcode = ? WHERE product_id = ?' : null;
+            const sql_attr1 = attr ? 'DELETE FROM product_attribute WHERE product_id = ?' : null;
+            const sql_attr2 = attr ? 'INSERT INTO product_attribute (product_id, name, value) values ?' : null;
+            const data_attr2 = attr ? attr.map(attribute => [id, attribute.name, attribute.value]) : null;
+            
+            await conn.query(sql, data);
+            if(code) await conn.query(sql_code, [code, id]);
+            if(attr) await conn.query(sql_attr1, [id]);
+            if(attr) await conn.query(sql_attr2, [data_attr2]);
+
+            await conn.commit();
+            await conn.end();
+
+            return true;
+        }catch(e){
+            console.log(e.message);
+            throw e;
+        }
     }
 
-    deleteProduct(id){
+    async deleteProduct(id){
+        const conn = await this.createConn();
+        try{
+            await conn.beginTransaction();
+            const [ EXISTS ] = await conn.query('SELECT * FROM product WHERE product_id=?', [id]);
+            if(!EXISTS.length > 0){
+                await conn.commit();
+                await conn.end();
+                return "Doesn't have product with the id sent";
+            }
+            await conn.query('DELETE FROM product_attribute WHERE product_id=?', [id]);
+            await conn.query('DELETE FROM product_barcode WHERE product_id=?', [id]);
+            await conn.query('DELETE FROM product WHERE product_id=?', [id]);
+            await conn.commit();
+            await conn.end();
+        }catch(e){
+            console.log(e.message);
+            throw e;
+        }
         return true;
     }
 }
