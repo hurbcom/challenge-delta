@@ -58,7 +58,7 @@ sudo chmod +x init.sh
 O script irá seguir os seguintes passos:
 1. Verificar se o docker está instalado utilizando o comando *docker --version* e caso não esteja, o script tentará instalar o docker através dos comandos no script *toolsInstaller.sh*. O script também torna o seu usuário e grupo em owner do .sock do docker (para que possam ser executados comandos sem a utilização do *sudo*)
 2. Quase da mesma forma que acima, o script verifica a presença do minikube. A diferença é que o comando é o *minikube start* e caso ocorra tudo bem, é rodado o comando *minikube addons enable metrics-server* para habilitar as métricas de CPU.
-3. A aplicação é buildada e então pushada para o docker hub. É nesta etapa que o arquivo de autenticação do docker é necessário. Lembre-se de alterar o arquivo *infra/k8s/app.deployment.sh* com a imagem correta, de acordo com o seu repositório.
+3. A aplicação é buildada e então pushada para o registry dockerhub. É nesta etapa que o arquivo de autenticação do docker é necessário. Lembre-se de alterar o arquivo *infra/k8s/app.deployment.sh* com a imagem correta, de acordo com o seu repositório.
 4. Inicia o deploy do MySQL, da app + HPA e do Nginx.
 * No arquivo **init.sh**. a última linha dentro da função main contém um comando comentado. Este comando faz o port-forwarding do serviço do nginx para a sua porta 80. Descomente-o caso queira testar a app localmente na porta 80.
 #
@@ -72,7 +72,7 @@ Ou você pode startar a app utilizando o modo padrão, que utiliza o node. Seja 
 ```sh
 npm run dev # MODO DEV
 # OU
-nom run start # PADRÃO
+npm run start # PADRÃO
 ```
 
 ## 4. Pensando em algo grande...
