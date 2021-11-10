@@ -1,65 +1,82 @@
-# <img src="https://avatars1.githubusercontent.com/u/7063040?v=4&s=200.jpg" alt="HU" width="24" /> Desafio Delta
+# <img src="https://avatars1.githubusercontent.com/u/7063040?v=4&s=200.jpg" alt="HU" width="24" /> Delta Challenge
 
-Serão basicamente 2 partes que vamos focar nesse teste:
+[[English](README.md) | [English](README.pt.md)]
 
-- Sua habilidade de desenvolvimento.
-- Sua habilidade de colocar o código para rodar usando específicas tecnologias.
+There will basically be 2 parts that we'll focus on in this test:
 
-Alguns passos terão requerimentos vagos ou erros. Não há resposta certa ou errada, queremos avaliar sua postura diante do desafio assim o modo como você o desenvolverá.
+-   Your development skill.
+-   Your ability to get code to run using specific technologies.
+
+Some steps will have vague requirements or errors. There is no right or wrong answer, we want to assess your posture in the face of the challenge and how you will develop it.
 
 #
-# Parte 1 - Desenvolvimento
 
-## Pre-requisitos
-* Git
-* Conta no Github
+# Part 1 - Development
+
+## Prerequisites
+
+-   Git
+-   Github account
+
 #
-### Como fazer
 
-O projeto deve usar controle de versão no git e armazenado/subido para o Github em um repositório privado na sua conta.
+### How to make
 
-Quando terminar o desafio, convide o usuário `automator-hurb` para colaborador do seu repositório do desafio para que possamos fazer a avaliação.
+The project must use version control in git and stored/uploaded to Github in a private repository in your account.
+
+When you finish the challenge, invite the `automator-hurb` user to be a contributor to your challenge repository so we can take the assessment.
+
 #
-## A tarefa
 
-Usando Go, Python3 ou NodeJS, sua tarefa, será implementar um API REST que faça CRUD em produtos armazenados em um banco de dados MySQL 5.7.
+## The task
 
-A API terá que fazer a validação dos dados de entrada. Exemplo: SKU é único em POST e PUT.
+Using Go, Python3 or NodeJS, your task will be to implement a REST API that CRUDs products stored in a MySQL 5.7 database.
+
+The API will have to validate the input data. Example: SKU is unique in POST and PUT.
+
 #
-## Requisitos
-- Kubernetes deployment manifests para rodar, balancear, limitar requests e escalar utilizando HPA no Minikube v1.13.0
 
-- Script para popular o banco de dados com dummy data.
+## Requirements
 
-- Testes unitários
+-   Kubernetes deployment manifests to run, balance, limit requests and scale using HPA in Minikube v1.13.0
 
-## Bibliotecas de terceiros
-Você poderá usar bibliotecas de terceiros, como por exemplo o driver para falar com o banco de dados, mas encorajamos que use o menor número de bibliotecas possíveis.
+-   Script to populate the database with dummy data.
 
-# API de Produtos
-Response codes
-- 200 OK
-- 201 Created
-- 400 Bad Request
-- 404 Not Found
-- 500 Internal Server Error
+-   Unitary tests
+
+## Third Party Libraries
+
+You will be able to use third-party libraries such as the driver to talk to the database, but we encourage you to use as few libraries as possible.
+
+# Product API
+
+response codes
+
+-   200 OK
+-   201 Created
+-   400 Bad Request
+-   404 Not Found
+-   500 Internal Server Error
 
 ---
-Todas as respostas de erro (400, 404, 500) devem retornar um objeto único com uma única chave chamada "errorText" e o valor (string) descrevendo o erro.
 
-Exemplo:
+All error responses (400, 404, 500) must return a unique object with a unique key called "errorText" and the value (string) describing the error.
+
+Example:
 
 ```
 {
  "errorText": "The error message"
 }
 ```
-## Definição do "produto"
+
+## Definition of "product"
+
 ```
 {
     "productId"​: ​<int>​, ​(readonly, unique)
     "title"​: ​<string>​, ​(required for POST)
-​    "sku"​: ​<string>​, ​(required for POST, unique)
+​ "sku"​: ​<string>​, ​(required for POST, unique)
     "barcodes"​: ​[<string>]​, (unique)
     "description"​: <string|null>​, (default null)
     "attributes"​: ​[<attribute>]​, ​
@@ -69,44 +86,46 @@ Exemplo:
 }
 ```
 
-
 ## Endpoints
-```GET /api/products```
 
-**Parametros de query**
+`GET /api/products`
 
-Todos os parametros são opcionais
+**Query parameters**
 
+All parameters are optional
 
+| Parameter | Description                                            | Type                        | Default |
+| --------- | ------------------------------------------------------ | --------------------------- | ------- |
+| start     | Index start                                            | int                         | 0       |
+| num       | Number of indexes returned                             | int                         | 10      |
+| sku       | Filter by sku                                          | string                      | ---     |
+| barcode   | Filter by barcode                                      | string                      |         |
+| fields    | Product fields that will be returned from the response | string, separated by commas | ---     |
 
-| Parâmetro | Descrição | Tipo | Default |
-|---|---|---|---|
-| start | Inicio do index | int | 0 |
-| num | Numero de indexes retornados | int | 10 |
-| sku | Filtrar por sku | string | --- |
-| barcode | Filtrar por barcode | string |  |
-| fields | Campos do produto que serão retornados da resposta | string, separado por vírgulas | --- |
+-   Example of URL
 
-- Exemplo da URL
 ```
 http://127.0.0.1:8080/api/products?start=40&num=2&fields=productId,title
 ```
 
-- Retorno sucesso
+-   Success return
+
 ```
 {
 "totalCount"​: <int>​,
 "items"​: [​<product>​]
 }
 ```
-- Exemplo de retorno
+
+-   Sample return
+
 ```
 {
 ​"totalCount"​: 126​,
 "items"​: [
 {
     "productId"​: 45​,
-​    "title": "Awesome socks"
+​ "title": "Awesome socks"
     },
     {
     "productId"​: 46​,
@@ -115,24 +134,25 @@ http://127.0.0.1:8080/api/products?start=40&num=2&fields=productId,title
     ]
 }
 ```
+
 ---
 
 ## GET
+
 ```
 GET /api/products/{productId}
 ```
 
-**Parametros de query**
+**Query parameters**
 
-Todos os parametros são opcionais
+All parameters are optional
 
+| Parameter | Description                                            | Type                        | Default |
+| --------- | ------------------------------------------------------ | --------------------------- | ------- |
+| fields    | Product fields that will be returned from the response | string, separated by commas | ---     |
 
+Example return success
 
-| Parâmetro | Descrição | Tipo | Default |
-|---|---|---|---|
-| fields | Campos do produto que serão retornados da resposta | string, separado por vírgulas | --- |
-
-Exemplo Retorno sucesso
 ```
 {
 "productId"​: 45​,
@@ -142,8 +162,8 @@ Exemplo Retorno sucesso
 "description"​: null​,
 "attributes"​: [
     {
-​       "name"​: "color"​,
-​       "value"​: "Red"
+​ "name"​: "color"​,
+​ "value"​: "Red"
     },
     {
         "name"​: "size"​,​
@@ -156,23 +176,26 @@ Exemplo Retorno sucesso
 }
 ```
 
+error return
 
-Retorno erro
 ```
 {
 "errorText"​: "Can’t find product (<productId>)"
 }
 ```
+
 ---
+
 ## POST
 
 ```
 POST​ /api/products
 ```
 
-Para POST, um subset de produto é permitido, porém todos os campos requeridos para criação devem estar presentes.
+For POST, a product subset is allowed, but all fields required for creation must be present.
 
 **Body** content
+
 ```
 {
 ​"title": "Awesome socks"​,
@@ -186,65 +209,80 @@ Para POST, um subset de produto é permitido, porém todos os campos requeridos 
             "value"​: "Red"​,
         },
         {
-​            "name": "size"​,
+​ "name": "size"​,
             "value"​: "39-41"​,
         },
     ],
     ​"price"​: "89.00"​,
 }
 ```
-* Resposta sucesso (int)
+
+-   Success answer (int)
+
 ```
 45
 ```
-* Resposta erro
+
+-   Error response
+
 ```
 {
 ​"errorText"​: "SKU 'SCK-4511' already exists"
 }
 ```
+
 ---
+
 ## PUT
 
 ```
 PUT​ /api/products/{productId}
 ```
 
-Novamente, um subset de produto é permitido.
+Again, a product subset is allowed.
 
-Retorno sucesso (bool)
+Success return (bool)
+
 ```
 true
 ```
 
-Retorno erro
+error return
+
 ```
 {
  "errorText": "​ Invalid sku, can not be null"
 }
 ```
+
 ---
+
 ## DELETE
+
 ```
 DELETE​ /api/products/{productId}
 ```
 
-Retorno sucesso (bool)
+Success return (bool)
+
 ```
 true
 ```
-Retorno erro
+
+error return
+
 ```
 {
 ​"errorText"​: "Product with productId (<productId>) does not exist"
 }
 ```
 
-# Definições
+# Definitions
 
-## Tipos API
+## API Types
 
-Atributos
+attributes
+
 ```
 {
     "name"​: ​<string>​, ​(required)​
@@ -252,7 +290,8 @@ Atributos
 }
 ```
 
-## Mysql schema
+## mysql schema
+
 ```
 CREATE​ SCHEMA ​IF​ ​NOT​ ​EXISTS​ ​`hurb_test_assignment`
 DEFAULT ​CHARACTER​ SET​ utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -288,35 +327,34 @@ PRIMARY​ KEY​ (​`product_id`​, `name`​)
 );
 ```
 
-#
-# Parte 2 - Entrega da aplicação
+# Part 2 - Application Delivery
 
-- Sua aplicação deve rodar no Minikube v13.0 + kubectl
-- Você deve escrever os manifestos do Kubernetes para criar o *Ingresso* para expor sua app, 1 container para rodar sua aplicação e 1 container para rodar o Banco de dados. Você deve utilizar Serviços e deployments do K8s assim como HPA setando limites de requests e uso de recursos do sistema. Os números desses limites devem ser baixos o suficiente para ser possivel ver o HPA entrar em ação a partir de requisições da máquina local.
+-   Your application must run on Minikube v13.0 + kubectl
+-   You must write the Kubernetes manifests to create _Ingresso_ to expose your app, 1 container to run your application and 1 container to run the Database. You should use K8s Services and deployments as well as HPA by setting request limits and system resource usage. The numbers of these limits should be low enough to be able to see the HPA take action from requests from the local machine.
 
-* Todos os logs devem ser visiveis a partir do `kubectl logs -f <pod>`
+*   All logs must be visible from `kubectl logs -f <pod>`
 
-* A segurança do cluster será levada em consideração.
+*   Cluster security will be taken into account.
 
-* O projeto deve rodar utilizando apenas 1 comando (assumindo que a pessoa já tenha o minikube instalado e rodando).
+*   The project should run using only 1 command (assuming the person already has the minikube installed and running).
 
-## Critério de avaliação
+## Evaluation criteria
 
--   **Organização do código**: Separação de módulos - código app e infra.
--   **Clareza**: O README explica de forma resumida qual é o problema e como pode rodar a aplicação?
--   **Assertividade**: A aplicação está fazendo o que é esperado? Se tem algo faltando, o README explica o porquê?
--   **Legibilidade do código** (incluindo comentários)
--   **Segurança**: Existe alguma vulnerabilidade clara que não tenha sido endereçada?
--   **Cobertura de testes** Teste unitários
--   **Histórico de commits** (estrutura e qualidade, titulos e descrição)
--   **Escolhas técnicas**: A escolha das bibliotecas, arquitetura, etc, é a melhor escolha para a aplicação?
--   **Comunicação**: Se você não conseguiu completar todo o teste, o README contém o que ficou faltando?
+-   **Organization of code**: Separation of modules - app and infra code.
+-   **Clarity**: Does the README explain briefly what the problem is and how can I run the application?
+-   **Assertiveness**: Is the application doing what is expected? If something is missing, does the README explain why?
+-   **Code readability** (including comments)
+-   **Security**: Are there any clear vulnerabilities that have not been addressed?
+-   **Test coverage** Unit tests
+-   **History of commits** (structure and quality, titles and description)
+-   **Technical choices**: Is the choice of libraries, architecture, etc the best choice for the application?
+-   **Communication**: If you couldn't complete the entire test, does the README contain what was missing?
 
-## Dúvidas
+## Doubts
 
-Quaisquer dúvidas que você venha a ter, consulte as [_issues_](https://github.com/HurbCom/challenge-delta/issues) para ver se alguém já não a fez e caso você não ache sua resposta, abra você mesmo uma nova issue!
+Any questions you may have, check the [_issues_](https://github.com/HurbCom/challenge-delta/issues) to see if someone hasn't already and if you can't find your answer, open one yourself. new issue!
 
-Boa sorte e boa viagem! ;)
+Good luck and good trip! ;)
 
 <p align="center">
   <img src="ca.jpg" alt="Challange accepted" />
