@@ -1,6 +1,6 @@
 # <img src="https://avatars1.githubusercontent.com/u/7063040?v=4&s=200.jpg" alt="HU" width="24" /> Delta Challenge
 
-[[English](README.md) | [English](README.pt.md)]
+[[English](README.md) | [Portuguese](README.pt.md)]
 
 There will basically be 2 parts that we'll focus on in this test:
 
