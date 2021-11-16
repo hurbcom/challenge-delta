@@ -354,7 +354,7 @@ PRIMARY​ KEY​ (​`product_id`​, `name`​)
 
 Any questions you may have, check the [_issues_](https://github.com/HurbCom/challenge-delta/issues) to see if someone hasn't already and if you can't find your answer, open one yourself. new issue!
 
-Good luck and good trip! ;)
+Godspeed! ;)
 
 <p align="center">
   <img src="ca.jpg" alt="Challange accepted" />
