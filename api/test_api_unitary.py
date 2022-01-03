@@ -139,5 +139,92 @@ class apiUnitTests(unittest.TestCase):
     else:
       assert False, "Received status code %d instead of 400" % status
 
+
+  def test_put_null_title(self):
+    tester = app.test_client(self)
+    r = tester.get("/api/v1/todo/3")
+    status = r.status_code
+    if status == 200:
+      dataOriginal = r.json
+      payload = {
+        "todo_description": "description 3 with same title"
+      }
+      r = tester.put("/api/v1/todo/3", json=payload)
+      status = r.status_code
+      if status == 200:
+        r = tester.get("/api/v1/todo/3")
+        status = r.status_code
+        if status == 200:
+          dataGet = r.json
+          assert dataGet["todo"]["id"] == dataOriginal["todo"]["id"] and dataGet["todo"]["title"] == dataOriginal["todo"]["title"] and dataGet["todo"]["todo_description"] == "description 3 with same title", "Wrong result %s" % dataGet
+        else:
+          assert False, "status code %d is not 200" % status
+      else:
+        assert False, "status code %d is not 200" % status
+    else:
+      assert False, "status code %d is not 200" % status
+
+  def test_put_null_description(self):
+    tester = app.test_client(self)
+    r = tester.get("/api/v1/todo/3")
+    status = r.status_code
+    if status == 200:
+      dataOriginal = r.json
+      payload = {
+        "title": "title 3 with same description"
+      }
+      r = tester.put("/api/v1/todo/3", json=payload)
+      status = r.status_code
+      if status == 200:
+        r = tester.get("/api/v1/todo/3")
+        status = r.status_code
+        if status == 200:
+          dataGet = r.json
+          assert dataGet["todo"]["id"] == dataOriginal["todo"]["id"] and dataGet["todo"]["title"] == "title 3 with same description" and dataGet["todo"]["todo_description"] == dataOriginal["todo"]["todo_description"], "Wrong result %s" % dataGet
+        else:
+          assert False, "status code %d is not 200" % status
+      else:
+        assert False, "status code %d is not 200" % status
+    else:
+      assert False, "status code %d is not 200" % status
+
+  def test_get_unexisting_id(self):
+    tester = app.test_client(self)
+    r = tester.get("/api/v1/todo/20000")
+    status = r.status_code
+    if status == 404:
+      data = r.json
+      assert data["errorText"] == "Can't find todo id 20000", "Wrong '%s' response" % data["errorText"]
+    else:
+      assert False, "status code %d is not 404" % status
+
+  def test_put_empty_title(self):
+    tester = app.test_client(self)
+    payload = {
+      "title": "",
+      "todo_description": "description 1 with empty title"
+    }
+    r = tester.put("/api/v1/todo/1", json=payload)
+    status = r.status_code
+    if status == 400:
+      data = r.json
+      assert data["errorText"] == "Invalid title, cannot be empty", "Wrong '%s' response" % data["errorText"]
+    else:
+      assert False, "status code %d is not 400" % status
+
+  def test_put_empty_description(self):
+    tester = app.test_client(self)
+    payload = {
+      "title": "title 1",
+      "todo_description": ""
+    }
+    r = tester.put("/api/v1/todo/1", json=payload)
+    status = r.status_code
+    if status == 400:
+      data = r.json
+      assert data["errorText"] == "Invalid todo_description, cannot be empty", "Wrong '%s' response" % data["errorText"]
+    else:
+      assert False, "status code %d is not 400" % status
+
 if __name__ == '__main__':
   unittest.main()
