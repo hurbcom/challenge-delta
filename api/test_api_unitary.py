@@ -103,5 +103,41 @@ class apiUnitTests(unittest.TestCase):
     else:
       assert False, "Post status code %d is not 201" % status
 
+  def test_get_wrong_id(self):
+    tester = app.test_client(self)
+    r = tester.get("/api/v1/todo/2a")
+    status = r.status_code
+    if status == 400:
+      dataGet = r.json
+      assert dataGet["errorText"] == "Invalid todo id 2a", "Wrong '%s' response" % dataGet["errorText"]
+    else:
+      assert False, "status code %d is not 400" % status
+
+  def test_post_null_title(self):
+    tester = app.test_client(self)
+    payload = {
+      "todo_description": "description 4 null title"
+    }
+    r = tester.post("/api/v1/todo", json=payload)
+    status = r.status_code
+    if status == 400:
+      dataPost = r.json
+      assert dataPost["errorText"] == "Invalid title, cannot be null", "Wrong '%s' response" % dataPost["errorText"]
+    else:
+      assert False, "Received status code %d instead of 400" % status
+
+  def test_post_null_description(self):
+    tester = app.test_client(self)
+    payload = {
+      "title": "title 4 null description"
+    }
+    r = tester.post("/api/v1/todo", json=payload)
+    status = r.status_code
+    if status == 400:
+      dataPost = r.json
+      assert dataPost["errorText"] == "Invalid todo_description, cannot be null", "Wrong '%s' response" % dataPost["errorText"]
+    else:
+      assert False, "Received status code %d instead of 400" % status
+
 if __name__ == '__main__':
   unittest.main()
