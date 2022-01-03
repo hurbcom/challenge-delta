@@ -186,3 +186,48 @@ CREATE TABLE `todos` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2053 DEFAULT CHARSET=latin1
 ```
+
+# Testes unitários
+
+Requisitos: o framework [pytest](https://docs.pytest.org/).
+
+Os testes usam um banco sqlite em memoria. A aplicação [app.py](api/app.py) irá criar a tabela antes de iniciar os testes.
+
+Execução dos testes:
+
+```bash
+$ python3 -m pytest --disable-warnings -v api/test_api_unitary.py 
+```
+
+Para gerar o report em formato _JUnit-XML_:
+
+```bash
+$ python3 -m pytest --disable-warnings --junitxml results.xml test_api_unitary.py
+```
+
+Exemplo de resultados dos testes:
+
+```bash
+$ python3 -m pytest --disable-warnings -v api/test_api_unitary.py
+===================================== test session starts ======================================
+platform linux -- Python 3.9.7, pytest-6.0.2, py-1.10.0, pluggy-0.13.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/ssorato/Documents/githublab/challenge-delta
+collected 13 items                                                                             
+
+api/test_api_unitary.py::apiUnitTests::test_delete PASSED                                [  7%]
+api/test_api_unitary.py::apiUnitTests::test_get PASSED                                   [ 15%]
+api/test_api_unitary.py::apiUnitTests::test_get_all PASSED                               [ 23%]
+api/test_api_unitary.py::apiUnitTests::test_get_unexisting_id PASSED                     [ 30%]
+api/test_api_unitary.py::apiUnitTests::test_get_wrong_id PASSED                          [ 38%]
+api/test_api_unitary.py::apiUnitTests::test_post PASSED                                  [ 46%]
+api/test_api_unitary.py::apiUnitTests::test_post_null_description PASSED                 [ 53%]
+api/test_api_unitary.py::apiUnitTests::test_post_null_title PASSED                       [ 61%]
+api/test_api_unitary.py::apiUnitTests::test_put PASSED                                   [ 69%]
+api/test_api_unitary.py::apiUnitTests::test_put_empty_description PASSED                 [ 76%]
+api/test_api_unitary.py::apiUnitTests::test_put_empty_title PASSED                       [ 84%]
+api/test_api_unitary.py::apiUnitTests::test_put_null_description PASSED                  [ 92%]
+api/test_api_unitary.py::apiUnitTests::test_put_null_title PASSED                        [100%]
+
+=============================== 13 passed, 49 warnings in 0.42s ================================
+```
