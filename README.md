@@ -9,8 +9,8 @@ Projeto baseado no codigo da aplicaão [flaskcrudapi](https://github.com/paulodh
 ```
 {
   "id": <int>, (readonly , id da tarefa)
-  "title": <string> (required for POST/PUT, titulo da tarefa),
-  "todo_description": <string> (required for POST/PUT, descrição da tarefa)
+  "title": <string> (required for POST, titulo da tarefa),
+  "todo_description": <string> (required for POST, descrição da tarefa)
 }
 ```
 
@@ -143,7 +143,7 @@ Exemplo de retorno com erro ( status code 404 )
 
 ```
 {
-  "errorText": "Invalid title, cannot be null"
+  "errorText": "Invalid title, cannot be empty"
 }
 ```
 
