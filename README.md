@@ -172,4 +172,17 @@ Exemplo de retorno com erro ( status code 404 )
   "errorText": "todo with id 1 not found"
 }
 ```
+### Banco de dados MySQL
 
+A propria aplicação da API cria a tabela `todos` no banco de dados MySQL `todo`
+
+A estrutura da tabela é:
+
+```
+CREATE TABLE `todos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(20) DEFAULT NULL,
+  `todo_description` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2053 DEFAULT CHARSET=latin1
+```
