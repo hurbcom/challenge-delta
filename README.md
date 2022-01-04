@@ -296,3 +296,13 @@ e configurar as variaveis:
 
 * `LB_IP` ip obtido pelo comando
 * `LB_PORT` porta tcp obtida pelo comando
+
+# # Testar a API pelo acesso externo
+
+Foram criados teste usando o mesmo framework dos testes unitários [pytest](https://docs.pytest.org/).
+
+Executar o comando:
+
+```
+$ cd api_ext_tests; python3 test_api.py --cmdopt=`minikube -n api service api-crud --url`/api/v1 -v
+```
