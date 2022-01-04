@@ -288,7 +288,7 @@ Importar a [collection](postman_collection.json)
 
 Executar o comando:
 
-```
+```bash
 $ minikube -n api service api-crud --url
 ```
 
@@ -303,6 +303,32 @@ Foram criados teste usando o mesmo framework dos testes unitários [pytest](http
 
 Executar o comando:
 
-```
+```bash
 $ cd api_ext_tests; python3 test_api.py --cmdopt=`minikube -n api service api-crud --url`/api/v1 -v
 ```
+
+Exemplo de resultado:
+
+```
+============================================ test session starts ============================================
+platform linux -- Python 3.9.7, pytest-6.0.2, py-1.10.0, pluggy-0.13.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/ssorato/Documents/githublab/challenge-delta/api_ext_tests
+collected 12 items                                                                                          
+
+test_api.py::test_get_all PASSED                                                                      [  8%]
+test_api.py::test_get PASSED                                                                          [ 16%]
+test_api.py::test_put PASSED                                                                          [ 25%]
+test_api.py::test_delete PASSED                                                                       [ 33%]
+test_api.py::test_get_wrong_id PASSED                                                                 [ 41%]
+test_api.py::test_post_null_title PASSED                                                              [ 50%]
+test_api.py::test_post_null_description PASSED                                                        [ 58%]
+test_api.py::test_put_null_title PASSED                                                               [ 66%]
+test_api.py::test_put_null_description PASSED                                                         [ 75%]
+test_api.py::test_put_empty_title PASSED                                                              [ 83%]
+test_api.py::test_put_empty_description PASSED                                                        [ 91%]
+test_api.py::test_get_unexisting_id PASSED                                                            [100%]
+
+============================================ 12 passed in 0.35s =============================================
+```
+
