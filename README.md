@@ -231,3 +231,68 @@ api/test_api_unitary.py::apiUnitTests::test_put_null_title PASSED               
 
 =============================== 13 passed, 49 warnings in 0.42s ================================
 ```
+
+# Rodar a aplicação no Minikube
+
+1. Levantar o Minikube:
+
+```bash
+$ minikube start
+```
+
+2. Ativar as métricas:
+
+```bash
+$ minikube addons enable metrics-server
+```
+
+3. Reutulizar o docker daemon, para que possa ser utlizada a imagem docker local:
+
+```bash
+$ eval $(minikube docker-env) 
+```
+
+4. Executar o build da imagem docker com a API ( comandos executado a partir da pasta raiz do projeto ):
+
+```bash
+$ docker build ./api -t apicrud:v1
+```
+
+5. Executar o deploy ( comandos executado a partir da pasta raiz do projeto ):
+
+```bash
+$ kubectl apply -f k8s/
+```
+
+6. Verificar que os pods, serviço e hpa esteja ativos:
+
+```bash
+$ kubectl -n api get all
+```
+
+7. Testar a API ( o comando `jq` facilita a leitura do retorno )
+
+```bash
+$ curl -s `minikube -n api service api-crud --url`/api/v1/todo | jq
+```
+
+8. Para visualizar os logs da API executar o comando:
+
+```bash
+$ kubectl -n api logs -f -l app=api-crud
+```
+
+# Testar a API com o Postman
+
+Importar a [collection](postman_collection.json)
+
+Executar o comando:
+
+```
+$ minikube -n api service api-crud --url
+```
+
+e configurar as variaveis:
+
+* `LB_IP` ip obtido pelo comando
+* `LB_PORT` porta tcp obtida pelo comando

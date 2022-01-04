@@ -1,0 +1,175 @@
+{
+	"info": {
+		"_postman_id": "05c18426-8971-4236-acf0-871357510861",
+		"name": "api-crud",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST new todo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"a task\",\n    \"todo_description\": \"a description\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{LB_IP}}:{{LB_PORT}}/api/v1/todo",
+					"protocol": "http",
+					"host": [
+						"{{LB_IP}}"
+					],
+					"port": "{{LB_PORT}}",
+					"path": [
+						"api",
+						"v1",
+						"todo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{LB_IP}}:{{LB_PORT}}/api/v1/todo",
+					"protocol": "http",
+					"host": [
+						"{{LB_IP}}"
+					],
+					"port": "{{LB_PORT}}",
+					"path": [
+						"api",
+						"v1",
+						"todo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET a todo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{LB_IP}}:{{LB_PORT}}/api/v1/todo/2",
+					"protocol": "http",
+					"host": [
+						"{{LB_IP}}"
+					],
+					"port": "{{LB_PORT}}",
+					"path": [
+						"api",
+						"v1",
+						"todo",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT update todo",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"a new title\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{LB_IP}}:{{LB_PORT}}/api/v1/todo/2",
+					"protocol": "http",
+					"host": [
+						"{{LB_IP}}"
+					],
+					"port": "{{LB_PORT}}",
+					"path": [
+						"api",
+						"v1",
+						"todo",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE todo",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{LB_IP}}:{{LB_PORT}}/api/v1/todo/3",
+					"protocol": "http",
+					"host": [
+						"{{LB_IP}}"
+					],
+					"port": "{{LB_PORT}}",
+					"path": [
+						"api",
+						"v1",
+						"todo",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Liveness",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{LB_IP}}:{{LB_PORT}}/health/live",
+					"protocol": "http",
+					"host": [
+						"{{LB_IP}}"
+					],
+					"port": "{{LB_PORT}}",
+					"path": [
+						"health",
+						"live"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Readiness",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{LB_IP}}:{{LB_PORT}}/health/ready",
+					"protocol": "http",
+					"host": [
+						"{{LB_IP}}"
+					],
+					"port": "{{LB_PORT}}",
+					"path": [
+						"health",
+						"ready"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
