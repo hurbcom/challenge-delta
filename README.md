@@ -297,7 +297,7 @@ e configurar as variaveis:
 * `LB_IP` ip obtido pelo comando
 * `LB_PORT` porta tcp obtida pelo comando
 
-# # Testar a API pelo acesso externo
+# Testar a API pelo acesso externo
 
 Foram criados teste usando o mesmo framework dos testes unitários [pytest](https://docs.pytest.org/).
 
