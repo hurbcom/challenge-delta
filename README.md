@@ -332,3 +332,42 @@ test_api.py::test_get_unexisting_id PASSED                                      
 ============================================ 12 passed in 0.35s =============================================
 ```
 
+# Testar o  HorizontalPodAutoscaler (HPA) 
+
+Para testar o HPA será utlizada a ferramenta [k6](https://k6.io/docs/getting-started/installation/)
+
+Sugestões para monitorar os logs, hpa e os pods divindo a tela do terminal: 
+
+* [Tilix](https://gnunn1.github.io/tilix-web/)
+* [Terminator](https://terminator-gtk3.readthedocs.io/en/latest/index.html) 
+* [Screen](savannah.gnu.org/projects/screen)
+
+Monitorar os logs:
+
+```bash
+$ kubectl -n api logs -f -l app=api-crud
+```
+
+Monitorar o hpa:
+
+```bash
+$ kubectl -n api get hpa -w
+```
+
+Monitorar os pods da API:
+
+```bash
+$ kubectl -n api get pods -l app=api-crud -w
+```
+
+Testar o hpa:
+
+```
+$ k6 run --logformat=raw --http-debug=full -e API_URL=`minikube -n api service api-crud --url` --vus 20 --duration 60s api_ext_tests/k6_hpa_get.js
+```
+
+Testar o hpa com um numero variável de usuários:
+
+```
+$ k6 run --logformat=raw --http-debug=full -e API_URL=`minikube -n api service api-crud --url` api_ext_tests/k6_hpa_get_ramping_vus.js
+```
