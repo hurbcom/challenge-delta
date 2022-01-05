@@ -336,7 +336,7 @@ test_api.py::test_get_unexisting_id PASSED                                      
 
 Para testar o HPA será utlizada a ferramenta [k6](https://k6.io/docs/getting-started/installation/)
 
-Sugestões para monitorar os logs, hpa e os pods divindo a tela do terminal: 
+Sugestões para monitorar os logs, hpa e os pods dividindo a tela do terminal: 
 
 * [Tilix](https://gnunn1.github.io/tilix-web/)
 * [Terminator](https://terminator-gtk3.readthedocs.io/en/latest/index.html) 
