@@ -95,12 +95,19 @@ spec:
         volumeMounts:
         - name: mysql-storage
           mountPath: /var/lib/mysql
+        resources: 
+          requests:
+            cpu: "250m"
+            memory: "500Mi"
+          limits:
+            cpu: "350m"
+            memory: "1Gi"
       volumes:
       - name: mysql-storage
         persistentVolumeClaim:
           claimName: db-pvc
----
 
+---
 apiVersion: v1
 kind: Service
 metadata:
