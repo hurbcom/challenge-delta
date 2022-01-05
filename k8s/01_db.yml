@@ -1,0 +1,121 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-configmap
+  namespace: api
+data:
+  mysql_db: "todo"
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secret
+  namespace: api
+stringData:
+  mysql_root_pwd: "myR00t@pWd"
+  mysql_usr: "apiusr"
+  mysql_pwd: "p1p@W5Ty"
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: db-pv
+  namespace: api
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-pvc
+  namespace: api
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  namespace: api
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - image: mysql:5.7.36
+        name: mysql
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: mysql_root_pwd
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: mysql_usr
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: mysql_pwd
+          - name: MYSQL_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                name: db-configmap
+                key: mysql_db
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql
+        resources: 
+          requests:
+            cpu: "250m"
+            memory: "500Mi"
+          limits:
+            cpu: "350m"
+            memory: "1Gi"
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: db-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-svc
+  namespace: api
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: mysql
+  clusterIP: None
