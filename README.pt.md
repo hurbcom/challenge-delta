@@ -4,8 +4,8 @@
 
 Serão basicamente 2 partes que vamos focar nesse teste:
 
--   Sua habilidade de desenvolvimento.
--   Sua habilidade de colocar o código para rodar usando específicas tecnologias.
+-   Sua habilidade de colocar o código para rodar usando tecnologias e ferramentas específicas.
+-   Seu conhecimento de boas práticas nessas mesmas tecnologias.
 
 Alguns passos terão requerimentos vagos ou erros. Não há resposta certa ou errada, queremos avaliar sua postura diante do desafio assim o modo como você o desenvolverá.
 
@@ -30,315 +30,55 @@ Quando terminar o desafio, convide o usuário `automator-hurb` para colaborador 
 
 ## A tarefa
 
-Usando Go, Python3 ou NodeJS, sua tarefa, será implementar um API REST que faça CRUD em produtos armazenados em um banco de dados MySQL 5.7.
+Implementar a infraestrutura da aplicação que se encontra no diretório `app`.
 
-A API terá que fazer a validação dos dados de entrada. Exemplo: SKU é único em POST e PUT.
 
 #
 
 ## Requisitos
 
--   Kubernetes deployment manifests para rodar, balancear, limitar requests e escalar utilizando HPA no Minikube v1.13.0
+-    Kubernetes(Minikube v1.32.0)
+-    Docker
+-    Redis
+-    Banco de dados MySQL
+-    Aplicação 100% funcional
 
--   Script para popular o banco de dados com dummy data.
 
--   Testes unitários
 
-## Bibliotecas de terceiros
+# Aplicação
 
-Você poderá usar bibliotecas de terceiros, como por exemplo o driver para falar com o banco de dados, mas encorajamos que use o menor número de bibliotecas possíveis.
+A aplicação é composta por dois componentes principais: o frontend e o backend.
 
-# API de Produtos
+## Frontend
 
-Response codes
+O frontend foi desenvolvido utilizando JavaScript e o framework Express, rodando na versão 1.22 do Node.js. A principal responsabilidade do frontend é fazer requisições à API do backend e apresentar os respectivos status.
 
--   200 OK
--   201 Created
--   400 Bad Request
--   404 Not Found
--   500 Internal Server Error
+Quando a API está funcionando corretamente, a mensagem "Up and Running!" é exibida no frontend, juntamente com algumas informações adicionais, como a data atual e o ID da requisição gerado pelo backend.
 
----
+Se houver algum problema com a API, um erro HTTP 500 é retornado e o detalhe do erro é exibido na tela.
 
-Todas as respostas de erro (400, 404, 500) devem retornar um objeto único com uma única chave chamada "errorText" e o valor (string) descrevendo o erro.
+## Backend
 
-Exemplo:
+O backend foi desenvolvido utilizando a linguagem Go na versão 1.20. Ele é responsável por processar as requisições do frontend que chegam através do endpoint `/api/status`.
 
-```
-{
- "errorText": "The error message"
-}
-```
+Se tudo estiver funcionando corretamente, o backend retorna um status HTTP 200, juntamente com a data atual e o ID da requisição. Se houver algum problema com as dependências da aplicação, como o banco de dados ou o cache não estarem corretamente configurados, o backend retorna um status HTTP 500, com a mensagem do erro.
 
-## Definição do "produto"
+## Dependências
 
-```
-{
-    "productId"​: ​<int>​, ​(readonly, unique)
-    "title"​: ​<string>​, ​(required for POST)
-​    "sku"​: ​<string>​, ​(required for POST, unique)
-    "barcodes"​: ​[<string>]​, (unique)
-    "description"​: <string|null>​, (default null)
-    "attributes"​: ​[<attribute>]​, ​
-    "price"​: ​<money>​, ​(default "0.00")
-    "created"​: <timestamp>​, (readonly)
-    "lastUpdated": <timestamp|null>​ (readonly)
-}
-```
+A aplicação tem como dependências o MySQL e o Redis.
 
-## Endpoints
 
-`GET /api/products`
-
-**Parametros de query**
-
-Todos os parametros são opcionais
-
-| Parâmetro | Descrição                                          | Tipo                          | Default |
-| --------- | -------------------------------------------------- | ----------------------------- | ------- |
-| start     | Inicio do index                                    | int                           | 0       |
-| num       | Numero de indexes retornados                       | int                           | 10      |
-| sku       | Filtrar por sku                                    | string                        | ---     |
-| barcode   | Filtrar por barcode                                | string                        |         |
-| fields    | Campos do produto que serão retornados da resposta | string, separado por vírgulas | ---     |
-
--   Exemplo da URL
-
-```
-http://127.0.0.1:8080/api/products?start=40&num=2&fields=productId,title
-```
-
--   Retorno sucesso
-
-```
-{
-"totalCount"​: <int>​,
-"items"​: [​<product>​]
-}
-```
-
--   Exemplo de retorno
-
-```
-{
-​"totalCount"​: 126​,
-"items"​: [
-{
-    "productId"​: 45​,
-​    "title": "Awesome socks"
-    },
-    {
-    "productId"​: 46​,
-    "title"​: "Batman socks"
-        }
-    ]
-}
-```
-
----
-
-## GET
-
-```
-GET /api/products/{productId}
-```
-
-**Parametros de query**
-
-Todos os parametros são opcionais
-
-| Parâmetro | Descrição                                          | Tipo                          | Default |
-| --------- | -------------------------------------------------- | ----------------------------- | ------- |
-| fields    | Campos do produto que serão retornados da resposta | string, separado por vírgulas | ---     |
-
-Exemplo Retorno sucesso
-
-```
-{
-"productId"​: 45​,
-"title"​: "Awesome socks"​,
-​"sku"​: "SCK-4511"​,
-​"barcodes"​: [​"7410852096307"​],
-"description"​: null​,
-"attributes"​: [
-    {
-​       "name"​: "color"​,
-​       "value"​: "Red"
-    },
-    {
-        "name"​: "size"​,​
-        "value"​: "39-41"
-    },
-],
-"price"​: "89.00",
-"created"​: 1554472112​,
-​"lastUpdated"​: null
-}
-```
-
-Retorno erro
-
-```
-{
-"errorText"​: "Can’t find product (<productId>)"
-}
-```
-
----
-
-## POST
-
-```
-POST​ /api/products
-```
-
-Para POST, um subset de produto é permitido, porém todos os campos requeridos para criação devem estar presentes.
-
-**Body** content
-
-```
-{
-​"title": "Awesome socks"​,
-"sku"​: "SCK-4511"​,
-"barcodes"​: [​"7410852096307"​],
-​"description"​: null​,
-​"attributes"​: [
-        {
-​
-            "name"​: "color"​,
-            "value"​: "Red"​,
-        },
-        {
-​            "name": "size"​,
-            "value"​: "39-41"​,
-        },
-    ],
-    ​"price"​: "89.00"​,
-}
-```
-
--   Resposta sucesso (int)
-
-```
-45
-```
-
--   Resposta erro
-
-```
-{
-​"errorText"​: "SKU 'SCK-4511' already exists"
-}
-```
-
----
-
-## PUT
-
-```
-PUT​ /api/products/{productId}
-```
-
-Novamente, um subset de produto é permitido.
-
-Retorno sucesso (bool)
-
-```
-true
-```
-
-Retorno erro
-
-```
-{
- "errorText": "​ Invalid sku, can not be null"
-}
-```
-
----
-
-## DELETE
-
-```
-DELETE​ /api/products/{productId}
-```
-
-Retorno sucesso (bool)
-
-```
-true
-```
-
-Retorno erro
-
-```
-{
-​"errorText"​: "Product with productId (<productId>) does not exist"
-}
-```
-
-# Definições
-
-## Tipos API
-
-Atributos
-
-```
-{
-    "name"​: ​<string>​, ​(required)​
-    "value"​: ​<string>​ ​(required)
-}
-```
-
-## Mysql schema
-
-```
-CREATE​ SCHEMA ​IF​ ​NOT​ ​EXISTS​ ​`hurb_test_assignment`
-DEFAULT ​CHARACTER​ SET​ utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-CREATE​ ​TABLE​ ​IF​ ​NOT​ ​EXISTS​ ​`hurb_test_assignment`​.`product`​ (
-`product_id`​ INT​ UNSIGNED ​NOT​ NULL​ AUTO_INCREMENT,
-`title`​ VARCHAR​(32​) NOT​ NULL​,
-`sku`​ VARCHAR​(32​) NOT​ NULL​,
-`description`​ VARCHAR(1024​) NULL​,
-`price`​ DECIMAL​(12​,2)NOT​ NULL​ DEFAULT ​0.00,
-`created`​ DATETIME​ NOT​ NULL​,
-`last_updated`​ DATETIME​ NULL,
-PRIMARY​ KEY​ (​`product_id`​),
-UNIQUE INDEX (​`sku`​ ASC​),
-INDEX (​
-`created`​
-),
-INDEX (​`last_updated`​)
-);
-
-CREATE​ ​TABLE​ ​IF​ ​NOT​ ​EXISTS​ ​`hurb_test_assignment`​.`product_barcode`​ (
-`product_id`​ INT​ UNSIGNED ​NOT​ NULL​,
-`barcode`​ VARCHAR(32​) NOT​ NULL​,
-PRIMARY​ KEY​ (​`product_id`​, `barcode`​),
-UNIQUE INDEX (​`barcode`​)
-);
-
-CREATE​ ​TABLE​ ​IF​ ​NOT​ ​EXISTS​ ​`hurb_test_assignment`​.`product_attribute`​ (
-`product_id`​ INT​ UNSIGNED ​NOT​ NULL​,
-`name`​ VARCHAR​(16​) NOT​ NULL​,
-`value`​ VARCHAR​(32​) NOT​ NULL​,
-PRIMARY​ KEY​ (​`product_id`​, `name`​)
-);
-```
-
-#
 
 # Parte 2 - Entrega da aplicação
 
--   Sua aplicação deve rodar no Minikube v13.0 + kubectl
--   Você deve escrever os manifestos do Kubernetes para criar o _Ingresso_ para expor sua app, 1 container para rodar sua aplicação e 1 container para rodar o Banco de dados. Você deve utilizar Serviços e deployments do K8s assim como HPA setando limites de requests e uso de recursos do sistema. Os números desses limites devem ser baixos o suficiente para ser possivel ver o HPA entrar em ação a partir de requisições da máquina local.
+-   Sua aplicação deve rodar no Minikube v1.32.0 + kubectl
+-   Você deve escrever os manifestos do Kubernetes para criar o _Ingress_ para expor sua app, 2 containers para rodar sua aplicação, 1 container para rodar o Banco de dados e 1 container para o Redis. Você deve utilizar Serviços e deployments do K8s assim como HPA setando limites de requests e uso de recursos do sistema. 
 
-*   Todos os logs devem ser visiveis a partir do `kubectl logs -f <pod>`
+-   Você deve entregar um desenho com a arquitetura da aplicação.
 
-*   A segurança do cluster será levada em consideração.
+-   A segurança do cluster e dos contêineres será levada em consideração.
 
-*   O projeto deve rodar utilizando apenas 1 comando (assumindo que a pessoa já tenha o minikube instalado e rodando).
+-   O projeto deve rodar utilizando apenas 1 comando (assumindo que a pessoa já tenha o minikube instalado e rodando).
 
 ## Critério de avaliação
 
@@ -360,4 +100,5 @@ Boa sorte e boa viagem! ;)
 
 <p align="center">
   <img src="ca.jpg" alt="Challange accepted" />
-</p>
+</p> 
+
